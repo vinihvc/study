@@ -89,7 +89,7 @@ function AutocompletePopup({
       >
         <span
           className={cn(
-            "relative flex max-h-full origin-(--transform-origin) rounded-lg border bg-popover bg-clip-padding shadow-lg/5 transition-[scale,opacity] before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(var(--radius-lg)-1px)] before:shadow-[0_-1px_--theme(--color-white/6%)]",
+            "relative flex max-h-full origin-(--transform-origin) rounded-md border bg-popover bg-clip-padding shadow-lg/5 transition-[scale,opacity] before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(var(--radius-md)-1px)] before:shadow-[0_-1px_--theme(--color-white/6%)]",
             className
           )}
         >
@@ -114,7 +114,7 @@ function AutocompleteItem({
   return (
     <AutocompletePrimitive.Item
       className={cn(
-        "flex min-h-8 cursor-default select-none items-center rounded-sm px-2 py-1 text-base outline-none data-disabled:pointer-events-none data-highlighted:bg-accent data-highlighted:text-accent-foreground data-disabled:opacity-64 sm:min-h-7 sm:text-sm",
+        "flex min-h-8 cursor-default select-none items-center rounded-md px-2 py-1 text-base outline-none data-disabled:pointer-events-none data-highlighted:bg-accent data-highlighted:text-accent-foreground data-disabled:opacity-64 sm:min-h-7 sm:text-sm",
         className
       )}
       data-slot="autocomplete-item"

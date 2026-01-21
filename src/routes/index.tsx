@@ -1,19 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { allExercises } from "content-collections";
-import z from "zod";
-import { Filter } from "@/components/blocks/filter";
-import { ItemView } from "@/components/blocks/item-view";
 import { ItemCard } from "@/components/ui/item-card";
-
-const searchSchema = z.object({
-  view: z.enum(["list", "grid"]).default("grid").optional(),
-});
 
 const SORT_ORDER = ["easy", "medium", "hard"] as const;
 
 export const Route = createFileRoute("/")({
   component: Home,
-  validateSearch: (search) => searchSchema.parse(search),
   loader: () => {
     const sortedExercises = allExercises.sort(
       (a, b) =>
@@ -32,12 +24,9 @@ function Home() {
   return (
     <main>
       <div className="container grid gap-8">
-        <div className="flex items-center justify-between gap-4">
-          <h1 className="font-semibold text-xl">Algorithms</h1>
-          <Filter />
-        </div>
+        <h1 className="font-semibold text-xl">List of Exercises</h1>
 
-        <ItemView>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {exercises.map((item) => (
             <ItemCard data={item} key={item.slug}>
               <Link
@@ -49,7 +38,7 @@ function Home() {
               </Link>
             </ItemCard>
           ))}
-        </ItemView>
+        </div>
       </div>
     </main>
   );

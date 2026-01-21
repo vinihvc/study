@@ -6,7 +6,7 @@ export const Footer = () => {
           Created to study algorithms by{" "}
           <a
             className="link"
-            href="https://github.com/vinihvc"
+            href="https://vini.one"
             rel="noopener noreferrer"
             target="_blank"
           >

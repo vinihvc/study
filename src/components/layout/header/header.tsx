@@ -21,7 +21,7 @@ export const Header = (props: HeaderProps) => {
 
   return (
     <header className={cn("fixed inset-x-4 top-4 z-50", className)} {...rest}>
-      <div className="container flex h-14 items-center justify-between rounded-md bg-card/80 backdrop-blur-sm">
+      <div className="container flex h-14 items-center justify-between rounded-md bg-card/60 shadow-md backdrop-blur-sm">
         <div className="flex items-center gap-2">
           <Button
             className="zoom-in-95 animate-in blur-in-xs duration-300"

@@ -33,7 +33,7 @@ export const Spoiler = (props: SpoilerProps) => {
       <div className="in-data-[status=hidden]:blur-md">{children}</div>
 
       {!revealed && (
-        <div className="absolute inset-0 flex items-center justify-center rounded-sm border bg-card/20">
+        <div className="absolute inset-0 flex items-center justify-center rounded-md border bg-card/20">
           <button
             className="peer absolute inset-0 outline-none"
             onClick={() => setRevealed(true)}

@@ -62,7 +62,7 @@ export const ToC = (props: ToCProps) => {
 
   return (
     <nav
-      className={cn("h-fit w-full rounded-lg", className)}
+      className={cn("h-fit w-full rounded-md", className)}
       data-slot="toc"
       {...rest}
     >

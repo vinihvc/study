@@ -12,7 +12,7 @@ function Card({
 }: useRender.ComponentProps<"div">) {
   const defaultProps = {
     className: cn(
-      "relative flex flex-col gap-4 rounded-lg border bg-card bg-clip-padding py-4 text-card-foreground shadow-xs/5 before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(var(--radius-lg)-1px)] before:shadow-[0_-1px_--theme(--color-white/6%)] before:shadow-[0_1px_--theme(--color-black/6%)]",
+      "relative flex flex-col gap-4 rounded-md border bg-card bg-clip-padding py-4 text-card-foreground shadow-xs/5 before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(var(--radius-md)-1px)] before:shadow-[0_-1px_--theme(--color-white/6%)] before:shadow-[0_1px_--theme(--color-black/6%)]",
       className
     ),
     "data-slot": "card",

@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { DIFFICULTY_MAP } from "@/types/difficulty";
+import { generateSeoTags } from "@/utils/seo";
 
 export const Route = createFileRoute("/e/$slug")({
   component: RouteComponent,
@@ -29,6 +30,10 @@ export const Route = createFileRoute("/e/$slug")({
       {
         title: loaderData?.exercise?.title,
       },
+      ...generateSeoTags({
+        title: loaderData?.exercise?.title || "",
+        description: loaderData?.exercise?.description,
+      }),
     ],
   }),
 });
