@@ -1,0 +1,62 @@
+---
+title: Reverse Linked List
+excerpt: Reverse a singly linked list
+description: Given the head of a singly linked list, reverse the list and return the new head.
+difficulty: easy
+solved: false
+---
+
+Write a function that reverses a singly linked list. The function should take the head node and return the new head of the reversed list.
+
+## How to Solve
+
+Use iterative approach with three pointers: `prev`, `current`, and `next`. Traverse the list, reversing the `next` pointer of each node to point to the previous node. Alternatively, use recursion to reverse from the end.
+
+## Code
+
+```ts
+class ListNode {
+  val: number;
+  next: ListNode | null;
+  constructor(val?: number, next?: ListNode | null) {
+    this.val = val === undefined ? 0 : val;
+    this.next = next === undefined ? null : next;
+  }
+}
+
+const reverseList = (head: ListNode | null): ListNode | null => {
+  // Your implementation here
+};
+```
+
+## Test Cases
+
+### Input 1
+```ts
+// List: 1 -> 2 -> 3 -> 4 -> 5
+const head1 = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4, new ListNode(5)))));
+```
+
+**Expected Output:** `5 -> 4 -> 3 -> 2 -> 1` (reversed list)
+
+### Input 2
+```ts
+// List: 1 -> 2
+const head2 = new ListNode(1, new ListNode(2));
+```
+
+**Expected Output:** `2 -> 1` (reversed list)
+
+### Input 3
+```ts
+// List: null (empty list)
+const head3 = null;
+```
+
+**Expected Output:** `null`
+
+## Complexity
+
+**Time Complexity:** O(n) - We traverse the list once, visiting each node exactly once.
+
+**Space Complexity:** O(1) - Iterative approach uses only constant extra space. Recursive approach uses O(n) space for the call stack.

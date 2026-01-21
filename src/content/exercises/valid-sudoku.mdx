@@ -1,0 +1,85 @@
+---
+title: Valid Sudoku
+excerpt: Check if a Sudoku board is valid according to Sudoku rules
+description: Determine if a 9x9 Sudoku board is valid. A valid board must have no duplicate numbers in any row, column, or 3x3 sub-box.
+difficulty: medium
+solved: false
+---
+
+Write a function that checks if a Sudoku board is valid. A valid Sudoku board must satisfy three conditions:
+1. Each row must contain digits 1-9 without repetition
+2. Each column must contain digits 1-9 without repetition
+3. Each of the 9 3x3 sub-boxes must contain digits 1-9 without repetition
+
+Empty cells are represented by `'.'`.
+
+## How to Solve
+
+Use sets or hash maps to track seen digits in rows, columns, and sub-boxes. For each cell, check if the digit has already appeared in its row, column, or 3x3 box. The key insight is calculating which sub-box a cell belongs to: `boxIndex = Math.floor(row / 3) * 3 + Math.floor(col / 3)`.
+
+## Code
+
+```ts
+const isValidSudoku = (board: string[][]): boolean => {
+  // Your implementation here
+};
+```
+
+## Test Cases
+
+### Input 1
+```ts
+const board1 = [
+  ["5","3",".",".","7",".",".",".","."],
+  ["6",".",".","1","9","5",".",".","."],
+  [".","9","8",".",".",".",".","6","."],
+  ["8",".",".",".","6",".",".",".","3"],
+  ["4",".",".","8",".","3",".",".","1"],
+  ["7",".",".",".","2",".",".",".","6"],
+  [".","6",".",".",".",".","2","8","."],
+  [".",".",".","4","1","9",".",".","5"],
+  [".",".",".",".","8",".",".","7","9"]
+];
+```
+
+**Expected Output:** `true`
+
+### Input 2
+```ts
+const board2 = [
+  ["8","3",".",".","7",".",".",".","."],
+  ["6",".",".","1","9","5",".",".","."],
+  [".","9","8",".",".",".",".","6","."],
+  ["8",".",".",".","6",".",".",".","3"],
+  ["4",".",".","8",".","3",".",".","1"],
+  ["7",".",".",".","2",".",".",".","6"],
+  [".","6",".",".",".",".","2","8","."],
+  [".",".",".","4","1","9",".",".","5"],
+  [".",".",".",".","8",".",".","7","9"]
+];
+```
+
+**Expected Output:** `false` (duplicate 8 in first column)
+
+### Input 3
+```ts
+const board3 = [
+  [".",".",".",".",".",".",".",".","."],
+  [".",".",".",".",".",".",".",".","."],
+  [".",".",".",".",".",".",".",".","."],
+  [".",".",".",".",".",".",".",".","."],
+  [".",".",".",".",".",".",".",".","."],
+  [".",".",".",".",".",".",".",".","."],
+  [".",".",".",".",".",".",".",".","."],
+  [".",".",".",".",".",".",".",".","."],
+  [".",".",".",".",".",".",".",".","."]
+];
+```
+
+**Expected Output:** `true` (empty board is valid)
+
+## Complexity
+
+**Time Complexity:** O(1) - We always iterate through a fixed 9x9 grid (81 cells), so it's constant time.
+
+**Space Complexity:** O(1) - We use sets/maps with at most 9 entries each, which is constant space.

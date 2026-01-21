@@ -1,0 +1,50 @@
+---
+title: Maximum Subarray
+excerpt: Find the contiguous subarray with the largest sum
+description: Given an integer array, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.
+difficulty: medium
+solved: false
+---
+
+Write a function that finds the maximum sum of any contiguous subarray. This is also known as Kadane's algorithm problem.
+
+## How to Solve
+
+Use Kadane's algorithm: iterate through the array, maintaining the maximum sum ending at the current position. At each step, decide whether to extend the previous subarray or start a new one. Keep track of the global maximum.
+
+## Code
+
+```ts
+const maxSubArray = (nums: number[]): number => {
+  // Your implementation here
+};
+```
+
+## Test Cases
+
+### Input 1
+```ts
+const nums1 = [-2, 1, -3, 4, -1, 2, 1, -5, 4];
+```
+
+**Expected Output:** `6` (The subarray [4, -1, 2, 1] has the largest sum)
+
+### Input 2
+```ts
+const nums2 = [1];
+```
+
+**Expected Output:** `1`
+
+### Input 3
+```ts
+const nums3 = [5, 4, -1, 7, 8];
+```
+
+**Expected Output:** `23` (The entire array has the largest sum)
+
+## Complexity
+
+**Time Complexity:** O(n) - Single pass through the array.
+
+**Space Complexity:** O(1) - Only use a few variables to track current and maximum sums.

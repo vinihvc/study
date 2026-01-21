@@ -1,0 +1,53 @@
+---
+title: Top K Frequent Elements
+excerpt: Find the k most frequent elements in an array
+description: Given an integer array and an integer k, return the k most frequent elements. You may return the answer in any order.
+difficulty: medium
+solved: false
+---
+
+Write a function that returns the k most frequent elements from an array. If there are multiple answers, return any of them.
+
+## How to Solve
+
+First, count the frequency of each element using a hash map. Then, use a min-heap (priority queue) of size k to keep track of the top k elements, or sort the entries by frequency and take the top k. Alternatively, use bucket sort for O(n) solution.
+
+## Code
+
+```ts
+const topKFrequent = (nums: number[], k: number): number[] => {
+  // Your implementation here
+};
+```
+
+## Test Cases
+
+### Input 1
+```ts
+const nums1 = [1, 1, 1, 2, 2, 3];
+const k1 = 2;
+```
+
+**Expected Output:** `[1, 2]` (1 appears 3 times, 2 appears 2 times)
+
+### Input 2
+```ts
+const nums2 = [1];
+const k2 = 1;
+```
+
+**Expected Output:** `[1]`
+
+### Input 3
+```ts
+const nums3 = [4, 1, -1, 2, -1, 2, 3];
+const k3 = 2;
+```
+
+**Expected Output:** `[-1, 2]` (both appear 2 times, 4, 1, and 3 appear once)
+
+## Complexity
+
+**Time Complexity:** O(n) - Bucket sort approach: count frequencies O(n), bucket sort O(n), collect results O(k). Heap approach: O(n log k).
+
+**Space Complexity:** O(n) - Hash map stores at most n unique elements, and buckets array is size n.

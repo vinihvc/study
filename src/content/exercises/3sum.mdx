@@ -1,0 +1,50 @@
+---
+title: 3Sum
+excerpt: Find all unique triplets that sum to zero
+description: Given an integer array, find all unique triplets that sum to zero. The solution set must not contain duplicate triplets.
+difficulty: medium
+solved: false
+---
+
+Write a function that finds all unique triplets in the array which gives the sum of zero. Notice that the solution set must not contain duplicate triplets.
+
+## How to Solve
+
+Sort the array first. For each element, use two pointers (left and right) to find pairs that sum to the negative of the current element. Skip duplicates to avoid duplicate triplets. This reduces the problem from O(n³) to O(n²).
+
+## Code
+
+```ts
+const threeSum = (nums: number[]): number[][] => {
+  // Your implementation here
+};
+```
+
+## Test Cases
+
+### Input 1
+```ts
+const nums1 = [-1, 0, 1, 2, -1, -4];
+```
+
+**Expected Output:** `[[-1, -1, 2], [-1, 0, 1]]` (unique triplets that sum to 0)
+
+### Input 2
+```ts
+const nums2 = [0, 1, 1];
+```
+
+**Expected Output:** `[]` (no triplets sum to 0)
+
+### Input 3
+```ts
+const nums3 = [0, 0, 0];
+```
+
+**Expected Output:** `[[0, 0, 0]]`
+
+## Complexity
+
+**Time Complexity:** O(n²) - Sorting takes O(n log n), then for each of n elements we do a two-pointer scan which is O(n), resulting in O(n²).
+
+**Space Complexity:** O(1) - Excluding the output array, we only use a few variables. The output array can be O(n²) in the worst case, but that's required for the answer.

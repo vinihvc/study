@@ -1,0 +1,50 @@
+---
+title: Contains Duplicate
+excerpt: Check if array contains any duplicate values
+description: Given an integer array, determine if any value appears at least twice in the array.
+difficulty: easy
+solved: false
+---
+
+Write a function that returns `true` if any value appears at least twice in the array, and `false` if every element is distinct.
+
+## How to Solve
+
+Use a Set to track seen numbers. As you iterate through the array, if a number is already in the set, return true. Otherwise, add it to the set. If you finish iterating without finding duplicates, return false.
+
+## Code
+
+```ts
+const containsDuplicate = (nums: number[]): boolean => {
+  // Your implementation here
+};
+```
+
+## Test Cases
+
+### Input 1
+```ts
+const nums1 = [1, 2, 3, 1];
+```
+
+**Expected Output:** `true` (1 appears twice)
+
+### Input 2
+```ts
+const nums2 = [1, 2, 3, 4];
+```
+
+**Expected Output:** `false` (all elements are distinct)
+
+### Input 3
+```ts
+const nums3 = [1, 1, 1, 3, 3, 4, 3, 2, 4, 2];
+```
+
+**Expected Output:** `true` (multiple duplicates exist)
+
+## Complexity
+
+**Time Complexity:** O(n) - We iterate through the array once, and Set operations (add, has) are O(1) on average.
+
+**Space Complexity:** O(n) - In the worst case, the Set stores all n elements before finding a duplicate.

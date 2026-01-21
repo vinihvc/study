@@ -1,0 +1,50 @@
+---
+title: Longest Increasing Subsequence
+excerpt: Find the length of the longest strictly increasing subsequence
+description: Given an array of integers, find the length of the longest strictly increasing subsequence (not necessarily contiguous).
+difficulty: hard
+solved: false
+---
+
+Write a function that finds the length of the longest strictly increasing subsequence in an array. A subsequence is a sequence that can be derived from the array by deleting some or no elements without changing the order of the remaining elements.
+
+## How to Solve
+
+Use dynamic programming with binary search. Maintain an array `dp` where `dp[i]` represents the smallest tail element of all increasing subsequences of length `i+1`. For each number, use binary search to find where it should be placed. This optimizes from O(n²) to O(n log n).
+
+## Code
+
+```ts
+const lengthOfLIS = (nums: number[]): number => {
+  // Your implementation here
+};
+```
+
+## Test Cases
+
+### Input 1
+```ts
+const nums1 = [10, 9, 2, 5, 3, 7, 101, 18];
+```
+
+**Expected Output:** `4` (The longest increasing subsequence is [2, 3, 7, 101] or [2, 3, 7, 18])
+
+### Input 2
+```ts
+const nums2 = [0, 1, 0, 3, 2, 3];
+```
+
+**Expected Output:** `4` (The longest increasing subsequence is [0, 1, 2, 3])
+
+### Input 3
+```ts
+const nums3 = [7, 7, 7, 7, 7, 7, 7];
+```
+
+**Expected Output:** `1` (All elements are the same, so the longest subsequence has length 1)
+
+## Complexity
+
+**Time Complexity:** O(n log n) - We iterate through n elements, and for each we perform a binary search which is O(log n).
+
+**Space Complexity:** O(n) - We maintain a dp array of size at most n.

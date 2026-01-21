@@ -1,0 +1,62 @@
+---
+title: Debounce Function
+excerpt: Implement a debounce function that delays execution
+description: Create a debounce function that delays the execution of a function until after a specified time has passed since the last invocation.
+difficulty: medium
+solved: false
+---
+
+Write a function `createDebounce` that takes a function and a delay time in milliseconds. It should return a debounced version of the function that delays execution until the specified time has passed since the last call. If the debounced function is called again before the delay expires, the previous timer should be cancelled and a new one started.
+
+## How to Solve
+
+Use a closure to store a timeout ID. When the debounced function is called, clear any existing timeout and set a new one. The original function only executes after the delay period has passed without any new calls.
+
+## Code
+
+```ts
+const createDebounce = <T extends (...args: any[]) => any>(
+  func: T,
+  delay: number
+): ((...args: Parameters<T>) => void) => {
+  // Your implementation here
+};
+```
+
+## Test Cases
+
+### Input 1
+```ts
+const debouncedLog = createDebounce(() => console.log("Hello"), 1000);
+debouncedLog();
+// Wait 1 second: "Hello" is logged
+```
+
+**Expected Output:** After 1 second delay, "Hello" is logged to console
+
+### Input 2
+```ts
+const debouncedLog = createDebounce(() => console.log("Hello"), 1000);
+debouncedLog();
+debouncedLog();
+debouncedLog();
+// Only the last call executes after 1 second
+```
+
+**Expected Output:** After 1 second delay from the last call, "Hello" is logged once
+
+### Input 3
+```ts
+const debouncedSum = createDebounce((a: number, b: number) => a + b, 500);
+debouncedSum(1, 2);
+debouncedSum(3, 4);
+// After 500ms, only the last call (3, 4) should execute
+```
+
+**Expected Output:** After 500ms delay, the function executes with arguments (3, 4)
+
+## Complexity
+
+**Time Complexity:** O(1) - Each call is constant time, just setting/clearing a timeout.
+
+**Space Complexity:** O(1) - Only stores a timeout reference, constant space.

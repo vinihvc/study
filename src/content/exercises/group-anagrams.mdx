@@ -1,0 +1,50 @@
+---
+title: Group Anagrams
+excerpt: Group strings that are anagrams of each other
+description: Given an array of strings, group the anagrams together. An anagram is a word formed by rearranging the letters of another word.
+difficulty: medium
+solved: false
+---
+
+Write a function that groups all anagrams together. You can return the answer in any order. An anagram is a word or phrase formed by rearranging the letters of a different word or phrase.
+
+## How to Solve
+
+Use a hash map where the key is a sorted version of each string (or a character frequency signature), and the value is an array of anagrams. Iterate through the input array, sort each string to create a key, and add the original string to the corresponding group.
+
+## Code
+
+```ts
+const groupAnagrams = (strs: string[]): string[][] => {
+  // Your implementation here
+};
+```
+
+## Test Cases
+
+### Input 1
+```ts
+const strs1 = ["eat", "tea", "tan", "ate", "nat", "bat"];
+```
+
+**Expected Output:** `[["bat"], ["nat", "tan"], ["ate", "eat", "tea"]]` (or any order of groups)
+
+### Input 2
+```ts
+const strs2 = [""];
+```
+
+**Expected Output:** `[[""]]`
+
+### Input 3
+```ts
+const strs3 = ["a"];
+```
+
+**Expected Output:** `[["a"]]`
+
+## Complexity
+
+**Time Complexity:** O(n * k log k) - Where n is the number of strings and k is the average length. We sort each string (k log k) and iterate through n strings.
+
+**Space Complexity:** O(n * k) - We store all strings in the hash map, which requires space for n strings of average length k.

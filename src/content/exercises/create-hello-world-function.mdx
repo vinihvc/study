@@ -1,0 +1,53 @@
+---
+title: Create Hello World Function
+excerpt: Return a function that always returns "Hello World"
+description: Write a function that returns a new function which always returns the string "Hello World" regardless of arguments.
+difficulty: easy
+solved: false
+---
+
+Write a function `createHelloWorld` that returns a new function. This returned function should always return `"Hello World"` no matter what arguments are passed to it.
+
+## How to Solve
+
+Return an arrow function that ignores all arguments and returns the constant string "Hello World". This demonstrates closure and function factories in JavaScript/TypeScript.
+
+## Code
+
+```ts
+const createHelloWorld = (): () => string => {
+  // Your implementation here
+};
+```
+
+## Test Cases
+
+### Input 1
+```ts
+const hello = createHelloWorld();
+hello();
+```
+
+**Expected Output:** `"Hello World"`
+
+### Input 2
+```ts
+const hello = createHelloWorld();
+hello(1, 2, 3);
+```
+
+**Expected Output:** `"Hello World"`
+
+### Input 3
+```ts
+const hello = createHelloWorld();
+hello("foo", "bar", { baz: "qux" });
+```
+
+**Expected Output:** `"Hello World"`
+
+## Complexity
+
+**Time Complexity:** O(1) - Constant time operation, just returning a string.
+
+**Space Complexity:** O(1) - Constant space, no additional data structures needed.
