@@ -32,7 +32,11 @@ export const ContentBlock = (
       components={{
         Spoiler,
         BigO,
-        pre: ({ tabIndex, className, ...rest }) => (
+        pre: ({
+          tabIndex,
+          className,
+          ...rest
+        }: React.ComponentProps<"pre">) => (
           <ScrollArea className="my-6 w-full overflow-hidden rounded-md border bg-card">
             <pre
               className={cn(
