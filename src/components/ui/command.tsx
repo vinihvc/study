@@ -5,25 +5,26 @@ import { Combobox as ArkCombobox } from "@ark-ui/react/combobox";
 import { Dialog as ArkDialog } from "@ark-ui/react/dialog";
 import { SearchIcon } from "lucide-react";
 import type React from "react";
+
 import {
   Combobox,
   ComboboxControl,
   ComboboxEmpty,
   ComboboxGroup,
   ComboboxGroupLabel,
-  type ComboboxItem,
   ComboboxList,
   comboboxItemVariants,
 } from "@/components/ui/combobox";
+import type { ComboboxItem } from "@/components/ui/combobox";
 import {
   Dialog,
-  type DialogContent,
   DialogHeader,
   DialogOverlay,
   DialogPositioner,
   DialogTrigger,
   dialogContentVariants,
 } from "@/components/ui/dialog";
+import type { DialogContent } from "@/components/ui/dialog";
 import type { InputProps } from "@/components/ui/input";
 import {
   InputGroup,
@@ -40,8 +41,9 @@ export const CommandDialogTrigger = (
   props: React.ComponentProps<typeof DialogTrigger>
 ) => <DialogTrigger data-slot="command-dialog-trigger" {...props} />;
 
-interface CommandDialogContentProps
-  extends React.ComponentProps<typeof DialogContent> {
+interface CommandDialogContentProps extends React.ComponentProps<
+  typeof DialogContent
+> {
   /**
    * The description of the dialog
    *
@@ -121,8 +123,10 @@ export const Command: ArkCombobox.RootComponent = (props) => {
   );
 };
 
-interface CommandInputProps
-  extends Omit<React.ComponentProps<typeof ArkCombobox.Input>, "size"> {
+interface CommandInputProps extends Omit<
+  React.ComponentProps<typeof ArkCombobox.Input>,
+  "size"
+> {
   /**
    * The size of the input
    *

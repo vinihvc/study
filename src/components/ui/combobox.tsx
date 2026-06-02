@@ -2,13 +2,15 @@
 
 import {
   Combobox as ArkCombobox,
-  type ComboboxList as ArkComboboxList,
   useComboboxContext as useArkComboboxContext,
 } from "@ark-ui/react/combobox";
+import type { ComboboxList as ArkComboboxList } from "@ark-ui/react/combobox";
 import { Portal } from "@ark-ui/react/portal";
 import { CheckIcon, ChevronsUpDownIcon, XIcon } from "lucide-react";
 import type React from "react";
-import { tv, type VariantProps } from "tailwind-variants";
+import { tv } from "tailwind-variants";
+import type { VariantProps } from "tailwind-variants";
+
 import { Button } from "@/components/ui/button";
 import type { inputVariants } from "@/components/ui/input";
 import {
@@ -61,7 +63,8 @@ export const ComboboxControl = (
 };
 
 interface ComboboxInputProps
-  extends Omit<React.ComponentProps<typeof ArkCombobox.Input>, "size">,
+  extends
+    Omit<React.ComponentProps<typeof ArkCombobox.Input>, "size">,
     VariantProps<typeof inputVariants> {
   /**
    * Whether the control is disabled.
@@ -200,8 +203,9 @@ export const ComboboxContent = (
   );
 };
 
-interface ComboboxGroupProps
-  extends React.ComponentProps<typeof ArkCombobox.ItemGroup> {
+interface ComboboxGroupProps extends React.ComponentProps<
+  typeof ArkCombobox.ItemGroup
+> {
   /**
    * The heading of the group
    */
@@ -252,19 +256,20 @@ export const comboboxItemVariants = tv({
     "data-disabled:pointer-events-none data-disabled:opacity-64",
     "[&_svg:not([class*='size-'])]:size-4 [&_svg:not([class*='text-'])]:text-muted-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0",
   ],
-  variants: {
-    showIndicator: {
-      true: "pe-8",
-      false: "pe-2",
-    },
-  },
   defaultVariants: {
     showIndicator: true,
+  },
+  variants: {
+    showIndicator: {
+      false: "pe-2",
+      true: "pe-8",
+    },
   },
 });
 
 interface ComboboxItemProps
-  extends React.ComponentProps<typeof ArkCombobox.Item>,
+  extends
+    React.ComponentProps<typeof ArkCombobox.Item>,
     VariantProps<typeof comboboxItemVariants> {}
 
 export const ComboboxItem = (props: ComboboxItemProps) => {

@@ -2,7 +2,9 @@
 
 import { ark } from "@ark-ui/react/factory";
 import type React from "react";
-import { tv, type VariantProps } from "tailwind-variants";
+import { tv } from "tailwind-variants";
+import type { VariantProps } from "tailwind-variants";
+
 import { cn } from "@/lib/utils";
 
 const kbdVariants = tv({
@@ -16,19 +18,20 @@ const kbdVariants = tv({
     "in-data-[slot=tooltip-content]:bg-background/20 in-data-[slot=tooltip-content]:text-background",
     "[&_svg:not([class*='size-'])]:size-3",
   ],
+  defaultVariants: {
+    variant: "default",
+  },
   variants: {
     variant: {
       default: "bg-muted",
       outline: "border border-border",
     },
   },
-  defaultVariants: {
-    variant: "default",
-  },
 });
 
 interface KbdProps
-  extends React.ComponentProps<typeof ark.kbd>,
+  extends
+    React.ComponentProps<typeof ark.kbd>,
     VariantProps<typeof kbdVariants> {}
 
 export const Kbd = (props: KbdProps) => {

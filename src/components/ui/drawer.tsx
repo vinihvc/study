@@ -4,7 +4,9 @@ import { Drawer as ArkDrawer, useDrawerContext } from "@ark-ui/react/drawer";
 import { ark } from "@ark-ui/react/factory";
 import { Portal } from "@ark-ui/react/portal";
 import React from "react";
-import { tv, type VariantProps } from "tailwind-variants";
+import { tv } from "tailwind-variants";
+import type { VariantProps } from "tailwind-variants";
+
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 
@@ -126,19 +128,20 @@ const drawerPositionerVariants = tv({
     "has-data-[swipe-direction=left]:items-stretch has-data-[swipe-direction=left]:justify-start",
     "has-data-[swipe-direction=right]:items-stretch has-data-[swipe-direction=right]:justify-end",
   ],
+  defaultVariants: {
+    variant: "default",
+  },
   variants: {
     variant: {
       default: "",
       inset: "sm:p-4",
     },
   },
-  defaultVariants: {
-    variant: "default",
-  },
 });
 
 interface DrawerPositionerProps
-  extends React.ComponentProps<typeof ArkDrawer.Positioner>,
+  extends
+    React.ComponentProps<typeof ArkDrawer.Positioner>,
     VariantProps<typeof drawerPositionerVariants> {}
 
 export const DrawerPositioner = (props: DrawerPositionerProps) => {
@@ -171,13 +174,12 @@ const drawerContentVariants = tv({
     "data-[nested=drawer]:data-[state=closed]:slide-in-from-bottom-10 data-[nested=drawer]:data-[state=open]:slide-in-from-bottom-10 data-[has-nested=drawer]:origin-top",
     "motion-reduce:animate-none!",
   ],
+  defaultVariants: {
+    placement: "down",
+    variant: "default",
+  },
   variants: {
     placement: {
-      up: [
-        "data-[state=open]:slide-in-from-top data-[state=open]:animate-in",
-        "data-[state=closed]:slide-out-to-top data-[state=closed]:animate-out",
-        "rounded-b-2xl",
-      ],
       down: [
         "data-[state=closed]:slide-out-to-bottom data-[state=closed]:animate-out",
         "data-[state=open]:slide-in-from-bottom data-[state=open]:animate-in",
@@ -197,6 +199,11 @@ const drawerContentVariants = tv({
         "size-full",
         "rounded-s-2xl",
       ],
+      up: [
+        "data-[state=open]:slide-in-from-top data-[state=open]:animate-in",
+        "data-[state=closed]:slide-out-to-top data-[state=closed]:animate-out",
+        "rounded-b-2xl",
+      ],
     },
     variant: {
       default: "",
@@ -206,21 +213,18 @@ const drawerContentVariants = tv({
       ],
     },
   },
-  defaultVariants: {
-    placement: "down",
-    variant: "default",
-  },
 });
 
 const SWIPE_DIRECTION_TO_PLACEMENT = {
-  start: "left",
-  end: "right",
-  up: "up",
   down: "down",
+  end: "right",
+  start: "left",
+  up: "up",
 } as const;
 
 interface DrawerContentProps
-  extends React.ComponentProps<typeof ArkDrawer.Content>,
+  extends
+    React.ComponentProps<typeof ArkDrawer.Content>,
     VariantProps<typeof drawerContentVariants> {}
 
 export const DrawerContent = (props: DrawerContentProps) => {
@@ -235,8 +239,8 @@ export const DrawerContent = (props: DrawerContentProps) => {
             <ArkDrawer.Content
               className={cn(
                 drawerContentVariants({
-                  variant,
                   placement: SWIPE_DIRECTION_TO_PLACEMENT[swipeDirection],
+                  variant,
                 }),
                 className
               )}

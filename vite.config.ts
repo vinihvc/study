@@ -1,36 +1,32 @@
-import contentCollections from "@content-collections/vite";
 import tailwindcss from "@tailwindcss/vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
-import viteReact from "@vitejs/plugin-react";
+import react from "@vitejs/plugin-react";
+import mdx from "fumadocs-mdx/vite";
 import { nitro } from "nitro/vite";
 import { defineConfig } from "vite";
 
 export default defineConfig({
+  plugins: [
+    mdx(await import("./source.config")),
+    tailwindcss(),
+    tanstackStart({
+      prerender: {
+        enabled: true,
+      },
+      srcDirectory: "src",
+    }),
+    react(),
+    nitro({
+      preset: "vercel",
+    }),
+  ],
+  resolve: {
+    alias: {
+      tslib: "tslib/tslib.es6.js",
+    },
+    tsconfigPaths: true,
+  },
   server: {
     port: 3000,
   },
-  resolve: {
-    tsconfigPaths: true,
-  },
-  build: {
-    rolldownOptions: {
-      checks: {
-        pluginTimings: false,
-        preferBuiltinFeature: false,
-      },
-    },
-  },
-  plugins: [
-    tailwindcss(),
-    tanstackStart({
-      srcDirectory: "src",
-    }),
-    viteReact(),
-    nitro({
-      config: {
-        preset: "vercel",
-      },
-    }),
-    contentCollections(),
-  ],
 });

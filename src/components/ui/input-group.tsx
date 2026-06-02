@@ -2,7 +2,9 @@
 
 import { ark } from "@ark-ui/react/factory";
 import type React from "react";
-import { tv, type VariantProps } from "tailwind-variants";
+import { tv } from "tailwind-variants";
+import type { VariantProps } from "tailwind-variants";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -27,20 +29,21 @@ const inpuGroupVariants = tv({
     "dark:has-[[data-slot][aria-invalid=true]]:border-destructive-foreground dark:has-[[data-slot][aria-invalid=true]]:ring-destructive-foreground/40",
     "motion-reduce:transition-none!",
   ],
-  variants: {
-    size: {
-      sm: ["h-7"],
-      md: ["h-8"],
-      lg: ["h-9"],
-    },
-  },
   defaultVariants: {
     size: "md",
+  },
+  variants: {
+    size: {
+      lg: ["h-9"],
+      md: ["h-8"],
+      sm: ["h-7"],
+    },
   },
 });
 
 export interface InputGroupProps
-  extends React.ComponentProps<typeof ark.div>,
+  extends
+    React.ComponentProps<typeof ark.div>,
     VariantProps<typeof inpuGroupVariants> {}
 
 export const InputGroup = (props: InputGroupProps) => {
@@ -68,37 +71,38 @@ const inputGroupAddonVariants = tv({
     "[&>kbd]:rounded-[calc(var(--radius)-5px)]",
     "[&_svg:not([class*='size-'])]:size-4",
   ],
+  defaultVariants: {
+    align: "inline-start",
+  },
   variants: {
     align: {
-      "inline-start": [
-        "order-first ps-3",
-        "has-[>button]:ms-[-0.45rem]",
-        "has-[>kbd]:ms-[-0.35rem]",
-      ],
-      "inline-end": [
-        "order-last pe-3",
-        "has-[>button]:me-[-0.45rem]",
-        "has-[>kbd]:me-[-0.35rem]",
+      "block-end": [
+        "order-last w-full justify-start px-3 pb-3",
+        "group-has-[>input]/input-group:pb-2.5",
+        "[.border-t]:pt-3",
       ],
       "block-start": [
         "order-first w-full justify-start px-3 pt-3",
         "group-has-[>input]/input-group:pt-2.5",
         "[.border-b]:pb-3",
       ],
-      "block-end": [
-        "order-last w-full justify-start px-3 pb-3",
-        "group-has-[>input]/input-group:pb-2.5",
-        "[.border-t]:pt-3",
+      "inline-end": [
+        "order-last pe-3",
+        "has-[>button]:me-[-0.45rem]",
+        "has-[>kbd]:me-[-0.35rem]",
+      ],
+      "inline-start": [
+        "order-first ps-3",
+        "has-[>button]:ms-[-0.45rem]",
+        "has-[>kbd]:ms-[-0.35rem]",
       ],
     },
-  },
-  defaultVariants: {
-    align: "inline-start",
   },
 });
 
 interface InputGroupAddonProps
-  extends React.ComponentProps<typeof ark.div>,
+  extends
+    React.ComponentProps<typeof ark.div>,
     VariantProps<typeof inputGroupAddonVariants> {}
 
 export const InputGroupAddon = (props: InputGroupAddonProps) => {
@@ -129,8 +133,19 @@ const inputGroupButtonVariants = tv({
     "shadow-none",
     "pointer-coarse:after:absolute pointer-coarse:after:size-full pointer-coarse:after:min-h-11 pointer-coarse:after:min-w-11",
   ],
+  defaultVariants: {
+    size: "xs",
+  },
   variants: {
     size: {
+      "icon-sm": ["size-8", "p-0", "has-[>svg]:p-0"],
+      "icon-xs": [
+        "size-6",
+        "rounded-[calc(var(--radius)-5px)]",
+        "p-0",
+        "has-[>svg]:p-0",
+      ],
+      sm: ["h-8", "gap-1.5", "px-2.5", "rounded-md", "has-[>svg]:px-2.5"],
       xs: [
         "h-6",
         "gap-1",
@@ -139,23 +154,13 @@ const inputGroupButtonVariants = tv({
         "has-[>svg]:px-2",
         "[&_svg:not([class*='size-'])]:size-3.5",
       ],
-      sm: ["h-8", "gap-1.5", "px-2.5", "rounded-md", "has-[>svg]:px-2.5"],
-      "icon-xs": [
-        "size-6",
-        "rounded-[calc(var(--radius)-5px)]",
-        "p-0",
-        "has-[>svg]:p-0",
-      ],
-      "icon-sm": ["size-8", "p-0", "has-[>svg]:p-0"],
     },
-  },
-  defaultVariants: {
-    size: "xs",
   },
 });
 
 interface InputGroupButtonProps
-  extends Omit<React.ComponentProps<typeof Button>, "size">,
+  extends
+    Omit<React.ComponentProps<typeof Button>, "size">,
     VariantProps<typeof inputGroupButtonVariants> {}
 
 export const InputGroupButton = (props: InputGroupButtonProps) => {

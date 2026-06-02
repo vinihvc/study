@@ -1,7 +1,9 @@
 "use client";
 
 import { ark } from "@ark-ui/react/factory";
-import { tv, type VariantProps } from "tailwind-variants";
+import { tv } from "tailwind-variants";
+import type { VariantProps } from "tailwind-variants";
+
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 
@@ -14,6 +16,9 @@ const buttonGroupVariants = tv({
     "has-[>[data-slot=button-group]]:gap-2",
     "has-[select[aria-hidden=true]:last-child]:[&>[data-slot=select-trigger]:last-of-type]:rounded-e-md",
   ],
+  defaultVariants: {
+    orientation: "horizontal",
+  },
   variants: {
     orientation: {
       horizontal: [
@@ -29,13 +34,11 @@ const buttonGroupVariants = tv({
       ],
     },
   },
-  defaultVariants: {
-    orientation: "horizontal",
-  },
 });
 
 interface ButtonGroupProps
-  extends React.ComponentProps<typeof ark.fieldset>,
+  extends
+    React.ComponentProps<typeof ark.fieldset>,
     VariantProps<typeof buttonGroupVariants> {}
 
 export const ButtonGroup = (props: ButtonGroupProps) => {

@@ -2,6 +2,7 @@
 
 import { RiCodeSSlashLine } from "@remixicon/react";
 import { useMediaQuery } from "usehooks-ts";
+
 import { Button } from "@/components/ui/button";
 import {
   Drawer,
@@ -12,6 +13,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { cn } from "@/lib/utils";
+
 import { CodeBlocks } from "./code-blocks";
 
 interface CodeBlocksDrawerProps {

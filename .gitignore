@@ -18,4 +18,6 @@ yarn.lock
 /blob-report/
 /playwright/.cache/
 .tanstack
-.content-collections
+.source
+_backup-src
+_backup-root

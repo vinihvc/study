@@ -15,12 +15,12 @@ export const DIFFICULTY_MAP: Record<
     label: "Easy",
     variant: "success",
   },
-  medium: {
-    label: "Medium",
-    variant: "warning",
-  },
   hard: {
     label: "Hard",
     variant: "destructive",
+  },
+  medium: {
+    label: "Medium",
+    variant: "warning",
   },
 };

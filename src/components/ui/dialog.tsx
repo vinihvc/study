@@ -5,7 +5,9 @@ import { ark } from "@ark-ui/react/factory";
 import { Portal } from "@ark-ui/react/portal";
 import { XIcon } from "lucide-react";
 import React from "react";
-import { tv, type VariantProps } from "tailwind-variants";
+import { tv } from "tailwind-variants";
+import type { VariantProps } from "tailwind-variants";
+
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
@@ -119,19 +121,10 @@ export const dialogContentVariants = tv({
     "data-[state=open]:fade-in-0 data-[state=open]:zoom-in-[98%] data-[state=open]:animate-in",
     "motion-reduce:animate-none! motion-reduce:transition-none!",
   ],
+  defaultVariants: {
+    size: "md",
+  },
   variants: {
-    size: {
-      sm: ["max-w-md"],
-      md: ["max-w-lg"],
-      lg: ["max-w-xl"],
-      xl: ["max-w-2xl"],
-      "2xl": ["max-w-3xl"],
-      "3xl": ["max-w-4xl"],
-      "4xl": ["max-w-5xl"],
-      "5xl": ["max-w-6xl"],
-      "6xl": ["max-w-7xl"],
-      fullscreen: ["size-full"],
-    },
     bottomStickOnMobile: {
       true: [
         "max-sm:max-w-none",
@@ -141,14 +134,24 @@ export const dialogContentVariants = tv({
         "max-sm:data-[state=closed]:zoom-out-100 max-sm:data-[state=open]:zoom-in-100",
       ],
     },
-  },
-  defaultVariants: {
-    size: "md",
+    size: {
+      "2xl": ["max-w-3xl"],
+      "3xl": ["max-w-4xl"],
+      "4xl": ["max-w-5xl"],
+      "5xl": ["max-w-6xl"],
+      "6xl": ["max-w-7xl"],
+      fullscreen: ["size-full"],
+      lg: ["max-w-xl"],
+      md: ["max-w-lg"],
+      sm: ["max-w-md"],
+      xl: ["max-w-2xl"],
+    },
   },
 });
 
 interface DialogContentProps
-  extends React.ComponentProps<typeof ArkDialog.Content>,
+  extends
+    React.ComponentProps<typeof ArkDialog.Content>,
     VariantProps<typeof dialogContentVariants> {
   /**
    * Stick the dialog to the bottom of the screen on mobile
@@ -186,7 +189,7 @@ export const DialogContent = (props: DialogContentProps) => {
       >
         <ArkDialog.Content
           className={cn(
-            dialogContentVariants({ size, bottomStickOnMobile }),
+            dialogContentVariants({ bottomStickOnMobile, size }),
             className
           )}
           data-slot="dialog-content"

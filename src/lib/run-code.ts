@@ -9,7 +9,7 @@ type WorkerResponse =
   | { ok: false; error: string };
 
 const createWorker = () =>
-  new Worker(new URL("./code-runner.worker.ts", import.meta.url), {
+  new Worker(new URL("code-runner.worker.ts", import.meta.url), {
     type: "module",
   });
 
@@ -22,8 +22,8 @@ export const runExerciseCode = async (
     js = await prepareExerciseCode(sourceCode);
   } catch (error) {
     return {
-      ok: false,
       error: error instanceof Error ? error.message : "Failed to parse code",
+      ok: false,
     };
   }
 
@@ -37,7 +37,7 @@ export const runExerciseCode = async (
 
     worker.onerror = (error) => {
       worker.terminate();
-      resolve({ ok: false, error: error.message });
+      resolve({ error: error.message, ok: false });
     };
 
     worker.postMessage({ code: js });

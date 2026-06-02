@@ -1,6 +1,7 @@
 import { RiArrowLeftLine, RiArrowRightLine } from "@remixicon/react";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { allExercises } from "content-collections";
+import browserCollections from "collections/browser";
+
 import { CodeBlocks } from "@/components/blocks/code-blocks";
 import { CodeBlocksDrawer } from "@/components/blocks/code-blocks-drawer";
 import { ExerciseExamples } from "@/components/blocks/exercise-examples";
@@ -9,39 +10,18 @@ import { BigO } from "@/components/knowledge/big-o";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { getExerciseMetaBySlug } from "@/lib/exercises";
 import { DIFFICULTY_MAP } from "@/types/difficulty";
 import { generateSeoTags } from "@/utils/seo";
 
-export const Route = createFileRoute("/e/$slug")({
-  component: RouteComponent,
-  loader: ({ params }) => {
-    const exercise = allExercises.find(
-      (exercise) => exercise.slug === params.slug
-    );
-
-    if (!exercise) {
-      throw notFound();
-    }
-
-    return {
-      exercise,
-    };
+const exerciseClientLoader = browserCollections.exercises.createClientLoader({
+  component({ default: MDX }) {
+    return <ContentBlock body={MDX} />;
   },
-  head: ({ loaderData }) => ({
-    meta: [
-      {
-        title: loaderData?.exercise?.title,
-      },
-      ...generateSeoTags({
-        title: loaderData?.exercise?.title || "",
-        description: loaderData?.exercise?.description,
-      }),
-    ],
-  }),
 });
 
-function RouteComponent() {
-  const { exercise } = Route.useLoaderData();
+const RouteComponent = () => {
+  const { exercise, path } = Route.useLoaderData();
 
   const difficulty = DIFFICULTY_MAP[exercise.difficulty];
 
@@ -71,7 +51,7 @@ function RouteComponent() {
             <Separator className="my-4" />
 
             <div className="prose min-w-0">
-              <ContentBlock code={exercise.mdx} />
+              {exerciseClientLoader.useContent(path)}
             </div>
 
             <ExerciseExamples tests={exercise.tests} />
@@ -116,4 +96,30 @@ function RouteComponent() {
       </div>
     </main>
   );
-}
+};
+
+export const Route = createFileRoute("/e/$slug")({
+  component: RouteComponent,
+  head: ({ loaderData }) => ({
+    meta: [
+      {
+        title: loaderData?.exercise?.title,
+      },
+      ...generateSeoTags({
+        description: loaderData?.exercise?.description,
+        title: loaderData?.exercise?.title || "",
+      }),
+    ],
+  }),
+  loader: async ({ params }) => {
+    const data = getExerciseMetaBySlug(params.slug);
+
+    if (!data) {
+      throw notFound();
+    }
+
+    await exerciseClientLoader.preload(data.path);
+
+    return data;
+  },
+});

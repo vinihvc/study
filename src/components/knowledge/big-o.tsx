@@ -1,4 +1,5 @@
 import { RiInformationLine } from "@remixicon/react";
+
 import { Button } from "@/components/ui/button";
 import {
   Popover,
@@ -6,6 +7,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+
 import { Badge } from "../ui/badge";
 import { Separator } from "../ui/separator";
 

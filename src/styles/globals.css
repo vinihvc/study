@@ -181,7 +181,7 @@
 }
 
 @utility heading-link {
-  @apply link
+  @apply link;
 }
 
 .dark {

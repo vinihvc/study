@@ -1,6 +1,12 @@
 /// <reference types="vite/client" />
-import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
+import {
+  createRootRoute,
+  HeadContent,
+  Outlet,
+  Scripts,
+} from "@tanstack/react-router";
 import type * as React from "react";
+
 import { MediaQuery } from "@/components/debug/media-query";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
@@ -8,85 +14,89 @@ import { StripedPattern } from "@/components/layout/header/striped-pattern";
 import { DefaultCatchBoundary } from "@/components/pages/error";
 import { NotFound } from "@/components/pages/not-found";
 import { SITE_CONFIG } from "@/config/site";
-import appCss from "@/styles/globals.css?url";
+import { getSearchExercises } from "@/lib/exercises";
 import { generateSeoTags } from "@/utils/seo";
 
+import appCss from "@/styles/globals.css?url";
+
+const RootDocument = ({ children }: React.PropsWithChildren) => (
+  <html lang="en">
+    <head>
+      <HeadContent />
+    </head>
+
+    <body>
+      {children}
+
+      <MediaQuery />
+
+      <Scripts />
+    </body>
+  </html>
+);
+
+const RootLayout = () => (
+  <>
+    <StripedPattern className="mask-[radial-gradient(98dvh_circle_at_center,white,transparent)] opacity-10" />
+
+    <Header />
+
+    <Outlet />
+
+    <Footer />
+  </>
+);
+
 export const Route = createRootRoute({
+  component: RootLayout,
+  errorComponent: DefaultCatchBoundary,
+  loader: () => ({
+    searchExercises: getSearchExercises(),
+  }),
   head: () => ({
+    links: [
+      { href: appCss, rel: "stylesheet" },
+      {
+        href: "/apple-touch-icon.png",
+        rel: "apple-touch-icon",
+        sizes: "180x180",
+      },
+      {
+        href: "/favicon-32x32.png",
+        rel: "icon",
+        sizes: "32x32",
+        type: "image/png",
+      },
+      {
+        href: "/favicon-16x16.png",
+        rel: "icon",
+        sizes: "16x16",
+        type: "image/png",
+      },
+      { color: "#fffff", href: "/site.webmanifest", rel: "manifest" },
+      { href: "/favicon.ico", rel: "icon" },
+    ],
     meta: [
       {
         charSet: "utf-8",
       },
       {
-        name: "viewport",
         content: "width=device-width, initial-scale=1",
+        name: "viewport",
       },
       ...generateSeoTags({
-        title: SITE_CONFIG.name,
+        creator: SITE_CONFIG.creator,
         description: SITE_CONFIG.description,
         image: SITE_CONFIG.ogImage,
         keywords: SITE_CONFIG.keywords,
-        creator: SITE_CONFIG.creator,
+        title: SITE_CONFIG.name,
       }),
       {
         name: "title",
         template: "Study - %s",
       },
     ],
-    links: [
-      { rel: "stylesheet", href: appCss },
-      {
-        rel: "apple-touch-icon",
-        sizes: "180x180",
-        href: "/apple-touch-icon.png",
-      },
-      {
-        rel: "icon",
-        type: "image/png",
-        sizes: "32x32",
-        href: "/favicon-32x32.png",
-      },
-      {
-        rel: "icon",
-        type: "image/png",
-        sizes: "16x16",
-        href: "/favicon-16x16.png",
-      },
-      { rel: "manifest", href: "/site.webmanifest", color: "#fffff" },
-      { rel: "icon", href: "/favicon.ico" },
-    ],
-    scripts: [
-      {
-        src: "/customScript.js",
-        type: "text/javascript",
-      },
-    ],
   }),
-  errorComponent: DefaultCatchBoundary,
   notFoundComponent: () => <NotFound />,
   shellComponent: RootDocument,
 });
-
-function RootDocument({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="en">
-      <head>
-        <HeadContent />
-      </head>
-
-      <body>
-        <StripedPattern className="mask-[radial-gradient(98dvh_circle_at_center,white,transparent)] opacity-10" />
-
-        <Header />
-
-        {children}
-
-        <Footer />
-
-        <MediaQuery />
-
-        <Scripts />
-      </body>
-    </html>
-  );
-}

@@ -8,6 +8,7 @@ import { useHotkey } from "@tanstack/react-hotkeys";
 import { githubDarkInit } from "@uiw/codemirror-theme-github";
 import React from "react";
 import { useLocalStorage } from "usehooks-ts";
+
 import { Button } from "@/components/ui/button";
 import type { ConsoleRunResult } from "@/lib/run-code";
 import { runExerciseCode } from "@/lib/run-code";
@@ -138,11 +139,11 @@ const editorTheme = [
   }),
   EditorView.theme({
     ".cm-content": {
-      paddingTop: "0.5rem",
-      paddingRight: "0.5rem",
+      lineHeight: 1.8,
       paddingBottom: "0.5rem",
       paddingLeft: "0.5rem",
-      lineHeight: 1.8,
+      paddingRight: "0.5rem",
+      paddingTop: "0.5rem",
     },
     ".cm-line": {
       lineHeight: 1.8,

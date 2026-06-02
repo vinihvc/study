@@ -20,11 +20,11 @@ const jsonValueSchema: z.ZodType<JsonValue> = z.lazy(() =>
 );
 
 export const testCaseSchema = z.object({
-  name: z.string(),
   code: z.string(),
+  compare: z.enum(["exact", "unordered"]).optional(),
   expectedInput: jsonValueSchema,
   expectedResult: jsonValueSchema,
-  compare: z.enum(["exact", "unordered"]).optional(),
+  name: z.string(),
 });
 
 export type TestCase = z.infer<typeof testCaseSchema>;

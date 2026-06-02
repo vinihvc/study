@@ -4,7 +4,7 @@ import type { TestCase } from "@/types/exercise";
 type JsonValue = TestCase["expectedInput"];
 
 const isCodeLikeString = (value: string) =>
-  /^[a-zA-Z_$][\w$]*\s*\(/.test(value) ||
+  /^[a-zA-Z_$][\w$]*\s*\(/u.test(value) ||
   value.includes("—") ||
   value.includes(" then ");
 

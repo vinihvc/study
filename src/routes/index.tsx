@@ -1,24 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { allExercises } from "content-collections";
+
 import { ItemCard } from "@/components/ui/item-card";
+import { getExerciseList } from "@/lib/exercises";
 
-const SORT_ORDER = ["easy", "medium", "hard"] as const;
-
-export const Route = createFileRoute("/")({
-  component: Home,
-  loader: () => {
-    const sortedExercises = allExercises.sort(
-      (a, b) =>
-        SORT_ORDER.indexOf(a.difficulty) - SORT_ORDER.indexOf(b.difficulty)
-    );
-
-    return {
-      exercises: sortedExercises,
-    };
-  },
-});
-
-function Home() {
+const Home = () => {
   const { exercises } = Route.useLoaderData();
 
   return (
@@ -42,4 +27,11 @@ function Home() {
       </div>
     </main>
   );
-}
+};
+
+export const Route = createFileRoute("/")({
+  component: Home,
+  loader: () => ({
+    exercises: getExerciseList(),
+  }),
+});

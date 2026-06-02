@@ -1,5 +1,7 @@
 import { ark } from "@ark-ui/react/factory";
-import { tv, type VariantProps } from "tailwind-variants";
+import { tv } from "tailwind-variants";
+import type { VariantProps } from "tailwind-variants";
+
 import { cn } from "@/lib/utils";
 
 export const Card = (props: React.ComponentProps<typeof ark.div>) => {
@@ -30,6 +32,9 @@ const cardMediaVariants = tv({
     "[&_svg]:pointer-events-none",
     "px-(--space)",
   ],
+  defaultVariants: {
+    variant: "default",
+  },
   variants: {
     variant: {
       default: "bg-transparent",
@@ -41,13 +46,11 @@ const cardMediaVariants = tv({
       ],
     },
   },
-  defaultVariants: {
-    variant: "default",
-  },
 });
 
 interface CardMediaProps
-  extends React.ComponentProps<typeof ark.div>,
+  extends
+    React.ComponentProps<typeof ark.div>,
     VariantProps<typeof cardMediaVariants> {}
 
 export const CardMedia = (props: CardMediaProps) => {

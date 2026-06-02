@@ -1,12 +1,33 @@
-import { MDXContent } from "@content-collections/mdx/react";
+import type { MDXComponents } from "mdx/types";
+
 import { Spoiler } from "@/components/blocks/spoiler";
 import { BigO } from "@/components/knowledge/big-o";
 import { cn } from "@/lib/utils";
+
 import { ScrollArea } from "./ui/scroll-area";
 
-export const ContentBlock = (
-  props: React.ComponentProps<typeof MDXContent>
-) => (
+const mdxComponents = {
+  BigO,
+  Spoiler,
+  pre: ({ tabIndex, className, ...rest }: React.ComponentProps<"pre">) => (
+    <ScrollArea className="my-6 w-full overflow-hidden rounded-md border bg-card">
+      <pre
+        className={cn(
+          "w-max min-w-full overflow-visible bg-transparent! p-4 text-[13px] leading-relaxed outline-none",
+          "[&_code]:block",
+          className
+        )}
+        {...rest}
+      />
+    </ScrollArea>
+  ),
+} satisfies MDXComponents;
+
+interface ContentBlockProps {
+  body: React.ComponentType<{ components?: MDXComponents }>;
+}
+
+export const ContentBlock = ({ body: MDX }: ContentBlockProps) => (
   <>
     <style>
       {`
@@ -27,28 +48,6 @@ export const ContentBlock = (
       `}
     </style>
 
-    <MDXContent
-      {...props}
-      components={{
-        Spoiler,
-        BigO,
-        pre: ({
-          tabIndex,
-          className,
-          ...rest
-        }: React.ComponentProps<"pre">) => (
-          <ScrollArea className="my-6 w-full overflow-hidden rounded-md border bg-card">
-            <pre
-              className={cn(
-                "w-max min-w-full overflow-visible bg-transparent! p-4 text-[13px] leading-relaxed outline-none",
-                "[&_code]:block",
-                className
-              )}
-              {...rest}
-            />
-          </ScrollArea>
-        ),
-      }}
-    />
+    <MDX components={mdxComponents} />
   </>
 );

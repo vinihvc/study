@@ -1,6 +1,7 @@
-import type { Exercise } from "content-collections";
+import type { Exercise } from "@/lib/exercises";
 import { cn } from "@/lib/utils";
 import { DIFFICULTY_MAP } from "@/types/difficulty";
+
 import { Badge } from "./badge";
 import {
   Card,

@@ -7,6 +7,7 @@ import {
 } from "@ark-ui/react/popover";
 import { Portal } from "@ark-ui/react/portal";
 import { XIcon } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
@@ -46,8 +47,9 @@ export const PopoverPositioner = (
   props: React.ComponentProps<typeof ArkPopover.Positioner>
 ) => <ArkPopover.Positioner data-slot="popover-positioner" {...props} />;
 
-interface PopoverContentProps
-  extends React.ComponentProps<typeof ArkPopover.Content> {
+interface PopoverContentProps extends React.ComponentProps<
+  typeof ArkPopover.Content
+> {
   /**
    * Show close button at the top right corner
    *

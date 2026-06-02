@@ -5,9 +5,9 @@ import {
   RiCornerDownLeftLine,
   RiSearchLine,
 } from "@remixicon/react";
-import { useNavigate } from "@tanstack/react-router";
-import { allExercises } from "content-collections";
+import { useNavigate, useRouteContext } from "@tanstack/react-router";
 import React from "react";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,33 +23,34 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { Kbd, KbdGroup } from "@/components/ui/kbd";
+import type { SearchExerciseItem } from "@/lib/exercises";
 import { DIFFICULTY_MAP } from "@/types/difficulty";
 
-type SearchExerciseItem = {
+interface CommandSearchItem extends SearchExerciseItem {
   label: string;
   value: string;
-  slug: string;
-  title: string;
-  difficulty: (typeof allExercises)[number]["difficulty"];
-};
-
-const searchItems: SearchExerciseItem[] = allExercises.map((exercise) => ({
-  value: exercise.slug,
-  label: exercise.title,
-  slug: exercise.slug,
-  title: exercise.title,
-  difficulty: exercise.difficulty,
-}));
+}
 
 export const HeaderSearch = () => {
   const navigate = useNavigate();
+  const { searchExercises = [] } = useRouteContext({ from: "__root__" });
 
   const [open, setOpen] = React.useState(false);
 
-  const { collection, filter } = useListCollection<SearchExerciseItem>({
-    initialItems: searchItems,
+  const searchItems = React.useMemo<CommandSearchItem[]>(
+    () =>
+      searchExercises.map((exercise) => ({
+        ...exercise,
+        label: exercise.title,
+        value: exercise.slug,
+      })),
+    [searchExercises]
+  );
+
+  const { collection, filter } = useListCollection<CommandSearchItem>({
     filter: (itemText, filterText) =>
       itemText.toLowerCase().includes(filterText.toLowerCase()),
+    initialItems: searchItems,
   });
 
   React.useEffect(() => {
@@ -67,8 +68,8 @@ export const HeaderSearch = () => {
   const handleSelect = (slug: string) => {
     setOpen(false);
     navigate({
-      to: "/e/$slug",
       params: { slug },
+      to: "/e/$slug",
     });
   };
 
@@ -91,6 +92,7 @@ export const HeaderSearch = () => {
       <CommandDialogContent>
         <Command
           collection={collection}
+          key={searchItems.map((item) => item.slug).join("-")}
           onInputValueChange={({ inputValue }) => filter(inputValue)}
           onValueChange={({ value }) => {
             const slug = value.at(0);

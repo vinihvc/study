@@ -2,7 +2,9 @@
 
 import { FieldInput } from "@ark-ui/react/field";
 import type React from "react";
-import { tv, type VariantProps } from "tailwind-variants";
+import { tv } from "tailwind-variants";
+import type { VariantProps } from "tailwind-variants";
+
 import { cn } from "@/lib/utils";
 
 export const inputVariants = tv({
@@ -25,20 +27,21 @@ export const inputVariants = tv({
     "disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-64",
     "motion-reduce:transition-none!",
   ],
-  variants: {
-    size: {
-      sm: ["h-7"],
-      md: ["h-8"],
-      lg: ["h-9"],
-    },
-  },
   defaultVariants: {
     size: "md",
+  },
+  variants: {
+    size: {
+      lg: ["h-9"],
+      md: ["h-8"],
+      sm: ["h-7"],
+    },
   },
 });
 
 export interface InputProps
-  extends Omit<React.ComponentProps<typeof FieldInput>, "size">,
+  extends
+    Omit<React.ComponentProps<typeof FieldInput>, "size">,
     VariantProps<typeof inputVariants> {}
 
 export const Input = (props: InputProps) => {
