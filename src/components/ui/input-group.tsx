@@ -2,8 +2,8 @@
 
 import { ark } from "@ark-ui/react/factory";
 import type React from "react";
-import { tv } from "tailwind-variants";
 import type { VariantProps } from "tailwind-variants";
+import { tv } from "tailwind-variants";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -42,8 +42,7 @@ const inpuGroupVariants = tv({
 });
 
 export interface InputGroupProps
-  extends
-    React.ComponentProps<typeof ark.div>,
+  extends React.ComponentProps<typeof ark.div>,
     VariantProps<typeof inpuGroupVariants> {}
 
 export const InputGroup = (props: InputGroupProps) => {
@@ -101,8 +100,7 @@ const inputGroupAddonVariants = tv({
 });
 
 interface InputGroupAddonProps
-  extends
-    React.ComponentProps<typeof ark.div>,
+  extends React.ComponentProps<typeof ark.div>,
     VariantProps<typeof inputGroupAddonVariants> {}
 
 export const InputGroupAddon = (props: InputGroupAddonProps) => {
@@ -159,8 +157,7 @@ const inputGroupButtonVariants = tv({
 });
 
 interface InputGroupButtonProps
-  extends
-    Omit<React.ComponentProps<typeof Button>, "size">,
+  extends Omit<React.ComponentProps<typeof Button>, "size">,
     VariantProps<typeof inputGroupButtonVariants> {}
 
 export const InputGroupButton = (props: InputGroupButtonProps) => {

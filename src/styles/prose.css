@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 .prose h1:not(.not-prose h1) {
   font-size: var(--text-2xl);
   font-weight: 800;
@@ -93,7 +95,7 @@
   line-height: 1.75;
 }
 
-.prose a:not(.not-prose a) a:not(.heading-link) {
+.prose a:not(.not-prose a) {
   font-weight: 500;
   color: var(--color-primary);
   text-decoration: underline;

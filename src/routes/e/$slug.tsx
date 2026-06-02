@@ -1,7 +1,12 @@
 import { RiArrowLeftLine, RiArrowRightLine } from "@remixicon/react";
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  getRouteApi,
+  Link,
+  notFound,
+} from "@tanstack/react-router";
+import { createServerFn } from "@tanstack/react-start";
 import browserCollections from "collections/browser";
-
 import { CodeBlocks } from "@/components/blocks/code-blocks";
 import { CodeBlocksDrawer } from "@/components/blocks/code-blocks-drawer";
 import { ExerciseExamples } from "@/components/blocks/exercise-examples";
@@ -10,7 +15,7 @@ import { BigO } from "@/components/knowledge/big-o";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { getExerciseMetaBySlug } from "@/lib/exercises";
+import type { ExerciseDetail } from "@/lib/exercises";
 import { DIFFICULTY_MAP } from "@/types/difficulty";
 import { generateSeoTags } from "@/utils/seo";
 
@@ -20,8 +25,26 @@ const exerciseClientLoader = browserCollections.exercises.createClientLoader({
   },
 });
 
+const loadExercise = createServerFn({ method: "GET" })
+  .inputValidator((slug: string) => slug)
+  .handler(async ({ data: slug }) => {
+    const { getExerciseMetaBySlug } = await import("@/lib/exercises");
+    const result = getExerciseMetaBySlug(slug);
+
+    if (!result) {
+      throw notFound();
+    }
+
+    return result;
+  });
+
+const exerciseRoute = getRouteApi("/e/$slug");
+
+type ExerciseLoaderData = { exercise: ExerciseDetail; path: string };
+
 const RouteComponent = () => {
-  const { exercise, path } = Route.useLoaderData();
+  const { exercise, path } =
+    exerciseRoute.useLoaderData() as ExerciseLoaderData;
 
   const difficulty = DIFFICULTY_MAP[exercise.difficulty];
 
@@ -100,26 +123,20 @@ const RouteComponent = () => {
 
 export const Route = createFileRoute("/e/$slug")({
   component: RouteComponent,
-  head: ({ loaderData }) => ({
+  head: ({ loaderData }: { loaderData?: ExerciseLoaderData }) => ({
     meta: [
       {
-        title: loaderData?.exercise?.title,
+        title: loaderData?.exercise.title,
       },
       ...generateSeoTags({
-        description: loaderData?.exercise?.description,
-        title: loaderData?.exercise?.title || "",
+        description: loaderData?.exercise.description,
+        title: loaderData?.exercise.title || "",
       }),
     ],
   }),
-  loader: async ({ params }) => {
-    const data = getExerciseMetaBySlug(params.slug);
-
-    if (!data) {
-      throw notFound();
-    }
-
+  loader: async ({ params }): Promise<ExerciseLoaderData> => {
+    const data = await loadExercise({ data: params.slug });
     await exerciseClientLoader.preload(data.path);
-
     return data;
   },
 });

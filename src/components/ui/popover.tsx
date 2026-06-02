@@ -47,9 +47,8 @@ export const PopoverPositioner = (
   props: React.ComponentProps<typeof ArkPopover.Positioner>
 ) => <ArkPopover.Positioner data-slot="popover-positioner" {...props} />;
 
-interface PopoverContentProps extends React.ComponentProps<
-  typeof ArkPopover.Content
-> {
+interface PopoverContentProps
+  extends React.ComponentProps<typeof ArkPopover.Content> {
   /**
    * Show close button at the top right corner
    *

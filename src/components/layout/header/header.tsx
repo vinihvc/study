@@ -24,7 +24,7 @@ export const Header = (props: HeaderProps) => {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 md:inset-x-4 md:top-4",
+        "fixed top-0 z-50 box-border w-full md:top-4 md:px-4",
         className
       )}
       data-slot="site-header"

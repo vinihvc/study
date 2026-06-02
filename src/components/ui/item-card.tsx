@@ -1,24 +1,22 @@
-import type { Exercise } from "@/lib/exercises";
-import { cn } from "@/lib/utils";
-import { DIFFICULTY_MAP } from "@/types/difficulty";
-
-import { Badge } from "./badge";
+import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardAction,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "./card";
+} from "@/components/ui/card";
+import type { ExerciseListItem } from "@/lib/exercises";
+import { cn } from "@/lib/utils";
+import { DIFFICULTY_MAP } from "@/types/difficulty";
 
 interface ItemCardProps extends React.ComponentProps<typeof Card> {
-  /**
-   */
-  data: Exercise;
+  data: ExerciseListItem;
 }
 
 export const ItemCard = (props: ItemCardProps) => {
   const { data, className, children, ...rest } = props;
+  const difficulty = DIFFICULTY_MAP[data.difficulty];
 
   return (
     <Card
@@ -35,12 +33,8 @@ export const ItemCard = (props: ItemCardProps) => {
           {data.excerpt}
         </CardDescription>
         <CardAction>
-          <Badge
-            className="uppercase"
-            size="sm"
-            variant={DIFFICULTY_MAP[data.difficulty].variant}
-          >
-            {data.difficulty}
+          <Badge className="uppercase" size="sm" variant={difficulty.variant}>
+            {difficulty.label}
           </Badge>
         </CardAction>
       </CardHeader>

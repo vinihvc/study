@@ -1,9 +1,18 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-
+import { createServerFn } from "@tanstack/react-start";
 import { ItemCard } from "@/components/ui/item-card";
-import { getExerciseList } from "@/lib/exercises";
 
-const Home = () => {
+const loadExercises = createServerFn({ method: "GET" }).handler(async () => {
+  const { getExerciseListItems } = await import("@/lib/exercises");
+  return { exercises: getExerciseListItems() };
+});
+
+export const Route = createFileRoute("/")({
+  component: Home,
+  loader: () => loadExercises(),
+});
+
+function Home() {
   const { exercises } = Route.useLoaderData();
 
   return (
@@ -27,11 +36,4 @@ const Home = () => {
       </div>
     </main>
   );
-};
-
-export const Route = createFileRoute("/")({
-  component: Home,
-  loader: () => ({
-    exercises: getExerciseList(),
-  }),
-});
+}

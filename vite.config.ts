@@ -7,7 +7,7 @@ import { defineConfig } from "vite";
 
 export default defineConfig({
   plugins: [
-    mdx(await import("./source.config")),
+    mdx(),
     tailwindcss(),
     tanstackStart({
       prerender: {
@@ -21,9 +21,6 @@ export default defineConfig({
     }),
   ],
   resolve: {
-    alias: {
-      tslib: "tslib/tslib.es6.js",
-    },
     tsconfigPaths: true,
   },
   server: {

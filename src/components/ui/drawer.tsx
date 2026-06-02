@@ -4,8 +4,8 @@ import { Drawer as ArkDrawer, useDrawerContext } from "@ark-ui/react/drawer";
 import { ark } from "@ark-ui/react/factory";
 import { Portal } from "@ark-ui/react/portal";
 import React from "react";
-import { tv } from "tailwind-variants";
 import type { VariantProps } from "tailwind-variants";
+import { tv } from "tailwind-variants";
 
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
@@ -140,8 +140,7 @@ const drawerPositionerVariants = tv({
 });
 
 interface DrawerPositionerProps
-  extends
-    React.ComponentProps<typeof ArkDrawer.Positioner>,
+  extends React.ComponentProps<typeof ArkDrawer.Positioner>,
     VariantProps<typeof drawerPositionerVariants> {}
 
 export const DrawerPositioner = (props: DrawerPositionerProps) => {
@@ -223,8 +222,7 @@ const SWIPE_DIRECTION_TO_PLACEMENT = {
 } as const;
 
 interface DrawerContentProps
-  extends
-    React.ComponentProps<typeof ArkDrawer.Content>,
+  extends React.ComponentProps<typeof ArkDrawer.Content>,
     VariantProps<typeof drawerContentVariants> {}
 
 export const DrawerContent = (props: DrawerContentProps) => {

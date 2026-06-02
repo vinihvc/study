@@ -2,8 +2,8 @@
 
 import { ark } from "@ark-ui/react/factory";
 import type React from "react";
-import { tv } from "tailwind-variants";
 import type { VariantProps } from "tailwind-variants";
+import { tv } from "tailwind-variants";
 
 import { cn } from "@/lib/utils";
 
@@ -97,8 +97,7 @@ export const badgeVariants = tv({
 export type BadgeVariant = VariantProps<typeof badgeVariants>["variant"];
 
 interface BadgeProps
-  extends
-    React.ComponentProps<typeof ark.span>,
+  extends React.ComponentProps<typeof ark.span>,
     VariantProps<typeof badgeVariants> {}
 
 export const Badge = (props: BadgeProps) => {

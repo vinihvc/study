@@ -5,7 +5,7 @@ import {
   RiCornerDownLeftLine,
   RiSearchLine,
 } from "@remixicon/react";
-import { useNavigate, useRouteContext } from "@tanstack/react-router";
+import { getRouteApi, useNavigate } from "@tanstack/react-router";
 import React from "react";
 
 import { Badge } from "@/components/ui/badge";
@@ -31,9 +31,11 @@ interface CommandSearchItem extends SearchExerciseItem {
   value: string;
 }
 
+const rootRoute = getRouteApi("__root__");
+
 export const HeaderSearch = () => {
   const navigate = useNavigate();
-  const { searchExercises = [] } = useRouteContext({ from: "__root__" });
+  const { searchExercises = [] } = rootRoute.useLoaderData();
 
   const [open, setOpen] = React.useState(false);
 

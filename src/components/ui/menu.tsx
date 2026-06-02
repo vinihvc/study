@@ -2,12 +2,12 @@
 
 import { Portal } from "@ark-ui/react";
 import { ark } from "@ark-ui/react/factory";
-import { Menu as ArkMenu, useMenuContext } from "@ark-ui/react/menu";
 import type { MenuContentProps } from "@ark-ui/react/menu";
+import { Menu as ArkMenu, useMenuContext } from "@ark-ui/react/menu";
 import { CheckIcon, ChevronRight } from "lucide-react";
 import type React from "react";
-import { tv } from "tailwind-variants";
 import type { VariantProps } from "tailwind-variants";
+import { tv } from "tailwind-variants";
 
 import { cn } from "@/lib/utils";
 
@@ -91,9 +91,8 @@ export const MenuContent = (props: MenuContentProps) => {
   );
 };
 
-interface MenuGroupProps extends React.ComponentProps<
-  typeof ArkMenu.ItemGroup
-> {
+interface MenuGroupProps
+  extends React.ComponentProps<typeof ArkMenu.ItemGroup> {
   /**
    * The heading of the menu item group.
    */
@@ -158,8 +157,7 @@ const menuItemVariants = tv({
 });
 
 interface MenuItemProps
-  extends
-    React.ComponentProps<typeof ArkMenu.Item>,
+  extends React.ComponentProps<typeof ArkMenu.Item>,
     VariantProps<typeof menuItemVariants> {}
 
 export const MenuItem = (props: MenuItemProps) => {
@@ -213,9 +211,8 @@ export const MenuCheckboxItem = (
   );
 };
 
-interface MenuRadioGroupProps extends React.ComponentProps<
-  typeof ArkMenu.RadioItemGroup
-> {
+interface MenuRadioGroupProps
+  extends React.ComponentProps<typeof ArkMenu.RadioItemGroup> {
   /**
    * The heading of the menu radio item group.
    */

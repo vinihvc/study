@@ -1,8 +1,8 @@
 "use client";
 
 import { ark } from "@ark-ui/react/factory";
-import { tv } from "tailwind-variants";
 import type { VariantProps } from "tailwind-variants";
+import { tv } from "tailwind-variants";
 
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
@@ -37,8 +37,7 @@ const buttonGroupVariants = tv({
 });
 
 interface ButtonGroupProps
-  extends
-    React.ComponentProps<typeof ark.fieldset>,
+  extends React.ComponentProps<typeof ark.fieldset>,
     VariantProps<typeof buttonGroupVariants> {}
 
 export const ButtonGroup = (props: ButtonGroupProps) => {

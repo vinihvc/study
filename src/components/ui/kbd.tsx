@@ -2,8 +2,8 @@
 
 import { ark } from "@ark-ui/react/factory";
 import type React from "react";
-import { tv } from "tailwind-variants";
 import type { VariantProps } from "tailwind-variants";
+import { tv } from "tailwind-variants";
 
 import { cn } from "@/lib/utils";
 
@@ -30,8 +30,7 @@ const kbdVariants = tv({
 });
 
 interface KbdProps
-  extends
-    React.ComponentProps<typeof ark.kbd>,
+  extends React.ComponentProps<typeof ark.kbd>,
     VariantProps<typeof kbdVariants> {}
 
 export const Kbd = (props: KbdProps) => {

@@ -1,7 +1,7 @@
 import { ark } from "@ark-ui/react/factory";
 import type React from "react";
-import { tv } from "tailwind-variants";
 import type { VariantProps } from "tailwind-variants";
+import { tv } from "tailwind-variants";
 
 import { Spinner } from "@/components/ui/spinner";
 import { cn } from "@/lib/utils";
@@ -113,8 +113,7 @@ export const buttonVariants = tv({
 });
 
 export interface ButtonProps
-  extends
-    React.ComponentProps<typeof ark.button>,
+  extends React.ComponentProps<typeof ark.button>,
     VariantProps<typeof buttonVariants> {
   /**
    * Apply a click effect to the button

@@ -1,37 +1,32 @@
-import { exercises } from "collections/server";
-import { loader } from "fumadocs-core/source";
-import { toFumadocsSource } from "fumadocs-mdx/runtime/server";
-
 import type { TestCase } from "@/types/exercise";
+
+import { source } from "./source";
 
 const SORT_ORDER = ["easy", "medium", "hard"] as const;
 
-export const exerciseSource = loader({
-  baseUrl: "/e",
-  slugs(file) {
-    return [file.data.title.toLowerCase().replaceAll(" ", "-")];
-  },
-  source: toFumadocsSource(exercises, []),
-});
+export const exerciseSource = source;
 
-type ExercisePage = ReturnType<typeof exerciseSource.getPages>[number];
+export type ExercisePage = ReturnType<typeof exerciseSource.getPages>[number];
 
 export interface ExerciseListItem {
-  slug: string;
-  title: string;
+  description?: string;
   difficulty: (typeof SORT_ORDER)[number];
   excerpt?: string;
-  description?: string;
+  slug: string;
+  title: string;
 }
-
-export type Exercise = ExerciseListItem;
 
 export interface ExerciseNav {
   slug: string | null;
   title: string | null;
 }
 
-export type ExerciseDetail = ExerciseListItem & {
+export type ExerciseDetail = {
+  description?: string;
+  difficulty: (typeof SORT_ORDER)[number];
+  excerpt?: string;
+  slug: string;
+  title: string;
   starter: string;
   tests?: TestCase[];
   solved?: boolean;
@@ -40,9 +35,9 @@ export type ExerciseDetail = ExerciseListItem & {
 };
 
 export interface SearchExerciseItem {
+  difficulty: ExerciseDetail["difficulty"];
   slug: string;
   title: string;
-  difficulty: ExerciseListItem["difficulty"];
 }
 
 const slugFromPage = (page: ExercisePage) =>
@@ -77,22 +72,24 @@ const buildExerciseDetail = (
 
 export const getExercisePages = () => exerciseSource.getPages();
 
-export const getExerciseList = (): ExerciseListItem[] =>
-  getExercisePages()
-    .map((page) => ({
-      description: page.data.description,
-      difficulty: page.data.difficulty,
-      excerpt: page.data.excerpt,
-      slug: slugFromPage(page),
-      title: page.data.title,
-    }))
-    .toSorted(
-      (a, b) =>
-        SORT_ORDER.indexOf(a.difficulty) - SORT_ORDER.indexOf(b.difficulty)
-    );
+export const getExerciseList = (): ExercisePage[] =>
+  [...getExercisePages()].sort(
+    (a, b) =>
+      SORT_ORDER.indexOf(a.data.difficulty) -
+      SORT_ORDER.indexOf(b.data.difficulty)
+  );
+
+export const getExerciseListItems = (): ExerciseListItem[] =>
+  getExerciseList().map((page) => ({
+    description: page.data.description,
+    difficulty: page.data.difficulty,
+    excerpt: page.data.excerpt,
+    slug: slugFromPage(page),
+    title: page.data.title,
+  }));
 
 export const getSearchExercises = (): SearchExerciseItem[] =>
-  getExerciseList().map((exercise) => ({
+  getExerciseListItems().map((exercise) => ({
     difficulty: exercise.difficulty,
     slug: exercise.slug,
     title: exercise.title,

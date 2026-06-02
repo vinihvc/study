@@ -1,6 +1,6 @@
 import { ark } from "@ark-ui/react/factory";
-import { tv } from "tailwind-variants";
 import type { VariantProps } from "tailwind-variants";
+import { tv } from "tailwind-variants";
 
 import { cn } from "@/lib/utils";
 
@@ -49,8 +49,7 @@ const cardMediaVariants = tv({
 });
 
 interface CardMediaProps
-  extends
-    React.ComponentProps<typeof ark.div>,
+  extends React.ComponentProps<typeof ark.div>,
     VariantProps<typeof cardMediaVariants> {}
 
 export const CardMedia = (props: CardMediaProps) => {

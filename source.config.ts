@@ -1,7 +1,24 @@
 import { defineCollections, defineConfig } from "fumadocs-mdx/config";
 import { z } from "zod";
 
-import { testCaseSchema } from "./src/types/exercise";
+type JsonValue =
+  | string
+  | number
+  | boolean
+  | null
+  | JsonValue[]
+  | { [key: string]: JsonValue };
+
+const jsonValueSchema: z.ZodType<JsonValue> = z.lazy(() =>
+  z.union([
+    z.string(),
+    z.number(),
+    z.boolean(),
+    z.null(),
+    z.array(jsonValueSchema),
+    z.record(z.string(), jsonValueSchema),
+  ])
+);
 
 export const exercises = defineCollections({
   dir: "src/content/exercises",
@@ -11,7 +28,17 @@ export const exercises = defineCollections({
     excerpt: z.string().optional(),
     solved: z.boolean().optional(),
     starter: z.string(),
-    tests: z.array(testCaseSchema).optional(),
+    tests: z
+      .array(
+        z.object({
+          code: z.string(),
+          compare: z.enum(["exact", "unordered"]).optional(),
+          expectedInput: jsonValueSchema,
+          expectedResult: jsonValueSchema,
+          name: z.string(),
+        })
+      )
+      .optional(),
     title: z.string(),
   }),
   type: "doc",

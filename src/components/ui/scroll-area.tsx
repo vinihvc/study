@@ -5,8 +5,8 @@ import {
   useScrollAreaContext,
 } from "@ark-ui/react/scroll-area";
 import type React from "react";
-import { tv } from "tailwind-variants";
 import type { VariantProps } from "tailwind-variants";
+import { tv } from "tailwind-variants";
 
 import { cn } from "@/lib/utils";
 
@@ -38,8 +38,7 @@ const scrollAreaVariants = tv({
 });
 
 interface ScrollAreaProps
-  extends
-    React.ComponentProps<typeof ArkScrollArea.Root>,
+  extends React.ComponentProps<typeof ArkScrollArea.Root>,
     VariantProps<typeof scrollAreaVariants> {}
 
 export const ScrollArea = (props: ScrollAreaProps) => {

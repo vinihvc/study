@@ -6,13 +6,13 @@ Interactive study site for algorithms and data structures. Users read MDX proble
 
 ## Commands
 
-| Task                   | Command                                 |
-| ---------------------- | --------------------------------------- |
-| Dev server (port 3000) | `pnpm dev`                              |
-| Production build       | `pnpm build`                            |
-| Preview build          | `pnpm preview`                          |
-| Lint / format check    | `pnpm check` (alias: `pnpm lint:check`) |
-| Auto-fix lint & format | `pnpm fix` (alias: `pnpm lint:fix`)     |
+| Task                   | Command           |
+| ---------------------- | ----------------- |
+| Dev server (port 3000) | `pnpm dev`        |
+| Production build       | `pnpm build`      |
+| Preview build          | `pnpm preview`    |
+| Lint / format check    | `pnpm lint:check` |
+| Auto-fix lint & format | `pnpm lint:fix`   |
 
 Package manager is **pnpm**. Node runs the Nitro output via `pnpm start` after build.
 
@@ -119,12 +119,12 @@ User code is plain **JavaScript** (not TypeScript in the editor). Keep starters 
 
 ## Code quality (Ultracite)
 
-This repo enforces style via **Ultracite** (Oxlint + Oxfmt). Run `pnpm fix` before committing.
+This repo enforces style via **Ultracite** (Oxlint + Oxfmt). Run `pnpm lint:fix` before committing.
 
 **Quick reference**
 
-- `pnpm check` — lint/format without writes
-- `pnpm fix` — auto-fix
+- `pnpm lint:check` — lint/format without writes
+- `pnpm lint:fix` — auto-fix
 
 Extends: `ultracite/oxlint/core`, `react`, `tanstack`.
 
@@ -136,13 +136,13 @@ Extends: `ultracite/oxlint/core`, `react`, `tanstack`.
 - Remove `console.log` / `debugger` from production paths (editor/run output is intentional).
 - Match existing patterns in the file you touch.
 
-Detailed Ultracite/React/TanStack rules are enforced by the linter; rely on `pnpm fix` rather than duplicating the full rule list here.
+Detailed Ultracite/React/TanStack rules are enforced by the linter; rely on `pnpm lint:fix` rather than duplicating the full rule list here.
 
 ## Verification
 
 After substantive changes:
 
-1. `pnpm check` (or `pnpm fix` then `pnpm check`)
+1. `pnpm lint:check` (or `pnpm lint:fix` then `pnpm lint:check`)
 2. `pnpm build` — includes `tsc --noEmit`
 3. Manually smoke-test: home list, open an exercise, run starter code, prev/next links, command palette search (`Header`).
 

@@ -5,8 +5,8 @@ import {
   Outlet,
   Scripts,
 } from "@tanstack/react-router";
-import type * as React from "react";
-
+import { createServerFn } from "@tanstack/react-start";
+import type React from "react";
 import { MediaQuery } from "@/components/debug/media-query";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
@@ -14,13 +14,16 @@ import { StripedPattern } from "@/components/layout/header/striped-pattern";
 import { DefaultCatchBoundary } from "@/components/pages/error";
 import { NotFound } from "@/components/pages/not-found";
 import { SITE_CONFIG } from "@/config/site";
-import { getSearchExercises } from "@/lib/exercises";
+import appCss from "@/styles/globals.css?url";
 import { generateSeoTags } from "@/utils/seo";
 
-import appCss from "@/styles/globals.css?url";
+const loadRootData = createServerFn({ method: "GET" }).handler(async () => {
+  const { getSearchExercises } = await import("@/lib/exercises");
+  return { searchExercises: getSearchExercises() };
+});
 
 const RootDocument = ({ children }: React.PropsWithChildren) => (
-  <html lang="en">
+  <html lang="en" suppressHydrationWarning>
     <head>
       <HeadContent />
     </head>
@@ -49,11 +52,28 @@ const RootLayout = () => (
 
 export const Route = createRootRoute({
   component: RootLayout,
-  errorComponent: DefaultCatchBoundary,
-  loader: () => ({
-    searchExercises: getSearchExercises(),
-  }),
+  loader: () => loadRootData(),
   head: () => ({
+    meta: [
+      {
+        charSet: "utf-8",
+      },
+      {
+        content: "width=device-width, initial-scale=1",
+        name: "viewport",
+      },
+      ...generateSeoTags({
+        creator: SITE_CONFIG.creator,
+        description: SITE_CONFIG.description,
+        image: SITE_CONFIG.ogImage,
+        keywords: SITE_CONFIG.keywords,
+        title: SITE_CONFIG.name,
+      }),
+      {
+        name: "title",
+        template: "Study - %s",
+      },
+    ],
     links: [
       { href: appCss, rel: "stylesheet" },
       {
@@ -76,27 +96,8 @@ export const Route = createRootRoute({
       { color: "#fffff", href: "/site.webmanifest", rel: "manifest" },
       { href: "/favicon.ico", rel: "icon" },
     ],
-    meta: [
-      {
-        charSet: "utf-8",
-      },
-      {
-        content: "width=device-width, initial-scale=1",
-        name: "viewport",
-      },
-      ...generateSeoTags({
-        creator: SITE_CONFIG.creator,
-        description: SITE_CONFIG.description,
-        image: SITE_CONFIG.ogImage,
-        keywords: SITE_CONFIG.keywords,
-        title: SITE_CONFIG.name,
-      }),
-      {
-        name: "title",
-        template: "Study - %s",
-      },
-    ],
   }),
+  errorComponent: DefaultCatchBoundary,
   notFoundComponent: () => <NotFound />,
   shellComponent: RootDocument,
 });

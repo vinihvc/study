@@ -5,8 +5,8 @@ import { ark } from "@ark-ui/react/factory";
 import { Portal } from "@ark-ui/react/portal";
 import { XIcon } from "lucide-react";
 import React from "react";
-import { tv } from "tailwind-variants";
 import type { VariantProps } from "tailwind-variants";
+import { tv } from "tailwind-variants";
 
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -150,8 +150,7 @@ export const dialogContentVariants = tv({
 });
 
 interface DialogContentProps
-  extends
-    React.ComponentProps<typeof ArkDialog.Content>,
+  extends React.ComponentProps<typeof ArkDialog.Content>,
     VariantProps<typeof dialogContentVariants> {
   /**
    * Stick the dialog to the bottom of the screen on mobile
