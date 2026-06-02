@@ -1,5 +1,4 @@
-import type { VariantProps } from "class-variance-authority";
-import type { badgeVariants } from "@/components/ui/badge";
+import type { BadgeVariant } from "@/components/ui/badge";
 
 export const DIFFICULTY_LIST = ["easy", "medium", "hard"] as const;
 
@@ -9,7 +8,7 @@ export const DIFFICULTY_MAP: Record<
   DifficultType,
   {
     label: string;
-    variant: VariantProps<typeof badgeVariants>["variant"];
+    variant: BadgeVariant;
   }
 > = {
   easy: {

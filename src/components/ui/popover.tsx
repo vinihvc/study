@@ -1,103 +1,237 @@
 "use client";
 
-import { Popover as PopoverPrimitive } from "@base-ui/react/popover";
+import { ark } from "@ark-ui/react/factory";
+import {
+  Popover as ArkPopover,
+  usePopoverContext,
+} from "@ark-ui/react/popover";
+import { Portal } from "@ark-ui/react/portal";
+import { XIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 
-const PopoverCreateHandle = PopoverPrimitive.createHandle;
+export const usePopover = usePopoverContext;
 
-const Popover = PopoverPrimitive.Root;
+export const Popover = (
+  props: React.ComponentProps<typeof ArkPopover.Root>
+) => {
+  const {
+    lazyMount = true,
+    unmountOnExit = true,
+    modal = true,
+    ...rest
+  } = props;
 
-function PopoverTrigger(props: PopoverPrimitive.Trigger.Props) {
-  return <PopoverPrimitive.Trigger data-slot="popover-trigger" {...props} />;
+  return (
+    <ArkPopover.Root
+      data-slot="popover"
+      lazyMount={lazyMount}
+      modal={modal}
+      unmountOnExit={unmountOnExit}
+      {...rest}
+    />
+  );
+};
+
+export const PopoverTrigger = (
+  props: React.ComponentProps<typeof ArkPopover.Trigger>
+) => <ArkPopover.Trigger data-slot="popover-trigger" {...props} />;
+
+export const PopoverAnchor = (
+  props: React.ComponentProps<typeof ArkPopover.Anchor>
+) => <ArkPopover.Anchor data-slot="popover-anchor" {...props} />;
+
+export const PopoverPositioner = (
+  props: React.ComponentProps<typeof ArkPopover.Positioner>
+) => <ArkPopover.Positioner data-slot="popover-positioner" {...props} />;
+
+interface PopoverContentProps
+  extends React.ComponentProps<typeof ArkPopover.Content> {
+  /**
+   * Show close button at the top right corner
+   *
+   * @default true
+   */
+  showCloseButton?: boolean;
 }
 
-function PopoverPopup({
-  children,
-  className,
-  side = "bottom",
-  align = "center",
-  sideOffset = 4,
-  alignOffset = 0,
-  tooltipStyle = false,
-  ...props
-}: PopoverPrimitive.Popup.Props & {
-  side?: PopoverPrimitive.Positioner.Props["side"];
-  align?: PopoverPrimitive.Positioner.Props["align"];
-  sideOffset?: PopoverPrimitive.Positioner.Props["sideOffset"];
-  alignOffset?: PopoverPrimitive.Positioner.Props["alignOffset"];
-  tooltipStyle?: boolean;
-}) {
+export const PopoverContent = (props: PopoverContentProps) => {
+  const { showCloseButton = false, className, children, ...rest } = props;
+
   return (
-    <PopoverPrimitive.Portal>
-      <PopoverPrimitive.Positioner
-        align={align}
-        alignOffset={alignOffset}
-        className="z-50 h-(--positioner-height) w-(--positioner-width) max-w-(--available-width) transition-[top,left,right,bottom,transform] data-instant:transition-none"
-        data-slot="popover-positioner"
-        side={side}
-        sideOffset={sideOffset}
-      >
-        <PopoverPrimitive.Popup
+    <Portal>
+      <PopoverPositioner>
+        <ArkPopover.Content
           className={cn(
-            "relative flex h-(--popup-height,auto) w-(--popup-width,auto) origin-(--transform-origin) rounded-md border bg-popover not-dark:bg-clip-padding text-popover-foreground shadow-lg/5 outline-none transition-[width,height,scale,opacity] before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(var(--radius-md)-1px)] before:shadow-[0_1px_--theme(--color-black/6%)] data-starting-style:scale-98 data-starting-style:opacity-0 dark:before:shadow-[0_-1px_--theme(--color-white/6%)]",
-            tooltipStyle &&
-              "w-fit text-balance rounded-md text-xs shadow-md/5 before:rounded-[calc(var(--radius-md)-1px)]",
+            "relative",
+            "z-[calc(50+var(--layer-index,0))]",
+            "[--space:--spacing(4)]",
+            "w-auto min-w-32",
+            "flex flex-col",
+            "bg-popover",
+            "text-popover-foreground",
+            "rounded-xl border shadow-lg/5",
+            "outline-hidden",
+            "origin-(--transform-origin)",
+            "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+            "data-[state=closed]:zoom-out-[98%] data-[state=open]:zoom-in-[98%]",
+            "data-[state=closed]:animate-out data-[state=open]:animate-in",
+            "data-[placement=bottom]:slide-in-from-top-2",
+            "data-[placement=left]:slide-in-from-end-2",
+            "data-[placement=right]:slide-in-from-start-2",
+            "data-[placement=top]:slide-in-from-bottom-2",
+            "motion-reduce:animate-none!",
             className
           )}
-          data-slot="popover-popup"
-          {...props}
+          data-slot="popover-content"
+          {...rest}
         >
-          <PopoverPrimitive.Viewport
-            className={cn(
-              "relative size-full max-h-(--available-height) overflow-clip px-(--viewport-inline-padding) py-4 outline-none [--viewport-inline-padding:--spacing(4)] data-instant:transition-none **:data-current:data-ending-style:opacity-0 **:data-current:data-starting-style:opacity-0 **:data-previous:data-ending-style:opacity-0 **:data-previous:data-starting-style:opacity-0 **:data-current:w-[calc(var(--popup-width)-2*var(--viewport-inline-padding)-2px)] **:data-previous:w-[calc(var(--popup-width)-2*var(--viewport-inline-padding)-2px)] **:data-current:opacity-100 **:data-previous:opacity-100 **:data-current:transition-opacity **:data-previous:transition-opacity",
-              tooltipStyle
-                ? "py-1 [--viewport-inline-padding:--spacing(2)]"
-                : "not-data-transitioning:overflow-y-auto"
-            )}
-            data-slot="popover-viewport"
-          >
-            {children}
-          </PopoverPrimitive.Viewport>
-        </PopoverPrimitive.Popup>
-      </PopoverPrimitive.Positioner>
-    </PopoverPrimitive.Portal>
+          {children}
+
+          {!!showCloseButton && (
+            <PopoverClose asChild>
+              <Button
+                aria-label="Close"
+                className="absolute inset-e-2 top-2 opacity-64 hover:opacity-100"
+                size="icon-sm"
+                variant="ghost"
+              >
+                <XIcon />
+              </Button>
+            </PopoverClose>
+          )}
+        </ArkPopover.Content>
+      </PopoverPositioner>
+    </Portal>
   );
+};
+
+interface PopoverHeaderProps extends React.ComponentProps<typeof ark.div> {
+  /**
+   * The description of the popover header
+   */
+  description?: string;
+  /**
+   * The title of the popover header
+   */
+  title?: string;
 }
 
-function PopoverClose({ ...props }: PopoverPrimitive.Close.Props) {
-  return <PopoverPrimitive.Close data-slot="popover-close" {...props} />;
-}
+export const PopoverHeader = (props: PopoverHeaderProps) => {
+  const { title, description, children, className, ...rest } = props;
 
-function PopoverTitle({ className, ...props }: PopoverPrimitive.Title.Props) {
   return (
-    <PopoverPrimitive.Title
-      className={cn("font-semibold text-lg leading-none", className)}
+    <ark.div
+      className={cn(
+        "flex flex-col gap-2 p-(--space)",
+        "in-[[data-slot=popover-content]:has([data-slot=popover-body])]:pb-3",
+        className
+      )}
+      data-slot="popover-header"
+      {...rest}
+    >
+      {!!title && <PopoverTitle>{title}</PopoverTitle>}
+      {!!description && <PopoverDescription>{description}</PopoverDescription>}
+      {!title && typeof children === "string" ? (
+        <PopoverTitle>{children}</PopoverTitle>
+      ) : (
+        children
+      )}
+    </ark.div>
+  );
+};
+
+export const PopoverTitle = (
+  props: React.ComponentProps<typeof ArkPopover.Title>
+) => {
+  const { className, ...rest } = props;
+
+  return (
+    <ArkPopover.Title
+      className={cn("font-semibold text-base leading-none", className)}
       data-slot="popover-title"
-      {...props}
+      {...rest}
     />
   );
-}
+};
 
-function PopoverDescription({
-  className,
-  ...props
-}: PopoverPrimitive.Description.Props) {
+export const PopoverDescription = (
+  props: React.ComponentProps<typeof ArkPopover.Description>
+) => {
+  const { className, ...rest } = props;
+
   return (
-    <PopoverPrimitive.Description
+    <ArkPopover.Description
       className={cn("text-muted-foreground text-sm", className)}
       data-slot="popover-description"
-      {...props}
+      {...rest}
     />
   );
-}
+};
 
-export {
-  PopoverCreateHandle,
-  Popover,
-  PopoverTrigger,
-  PopoverPopup,
-  PopoverPopup as PopoverContent,
-  PopoverTitle,
-  PopoverDescription,
-  PopoverClose,
+export const PopoverBody = (props: React.ComponentProps<typeof ark.div>) => {
+  const { className, ...rest } = props;
+
+  return (
+    <ScrollArea>
+      <ark.div
+        className={cn(
+          "flex-1",
+          "p-(--space)",
+          "overflow-auto",
+          "in-[[data-slot=popover-content]:has([data-slot=popover-header])]:pt-1",
+          "in-[[data-slot=popover-content]:has([data-slot=popover-footer]:not(.border-t))]:pb-1",
+          className
+        )}
+        data-slot="popover-body"
+        {...rest}
+      />
+    </ScrollArea>
+  );
+};
+
+export const PopoverFooter = (props: React.ComponentProps<typeof ark.div>) => {
+  const { className, ...rest } = props;
+
+  return (
+    <ark.div
+      className={cn(
+        "flex flex-col-reverse gap-2 sm:flex-row sm:justify-end",
+        "sm:rounded-b-[calc(var(--radius-lg)-1px)]",
+        "px-(--space) py-4",
+        "bg-muted/64",
+        "border-t",
+        className
+      )}
+      data-slot="popover-footer"
+      {...rest}
+    />
+  );
+};
+
+export const PopoverClose = (
+  props: React.ComponentProps<typeof ArkPopover.CloseTrigger>
+) => <ArkPopover.CloseTrigger data-slot="popover-close-trigger" {...props} />;
+
+export const PopoverArrow = (
+  props: React.ComponentProps<typeof ArkPopover.Arrow>
+) => {
+  const { style, ...rest } = props;
+
+  return (
+    <ArkPopover.Arrow
+      data-slot="popover-arrow"
+      style={
+        {
+          "--arrow-background": "var(--popover)",
+          "--arrow-size": "calc(1.5 * var(--spacing))",
+          ...style,
+        } as React.CSSProperties
+      }
+      {...rest}
+    >
+      <ArkPopover.ArrowTip className="border-s border-t" />
+    </ArkPopover.Arrow>
+  );
 };

@@ -2,21 +2,24 @@ import { RiInformationLine } from "@remixicon/react";
 import { Button } from "@/components/ui/button";
 import {
   Popover,
+  PopoverBody,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Badge } from "../ui/badge";
 import { Separator } from "../ui/separator";
 
-export const BigO = (props: React.ComponentProps<typeof Popover>) => {
-  return (
-    <Popover {...props}>
-      <PopoverTrigger render={<Button variant="secondary" />}>
+export const BigO = (props: React.ComponentProps<typeof Popover>) => (
+  <Popover positioning={{ placement: "bottom-start" }} {...props}>
+    <PopoverTrigger asChild>
+      <Button variant="secondary">
         <RiInformationLine />
         Lern more complexity concepts
-      </PopoverTrigger>
+      </Button>
+    </PopoverTrigger>
 
-      <PopoverContent align="start" className="text-sm sm:w-[500px]" side="top">
+    <PopoverContent className="text-sm sm:w-[500px]">
+      <PopoverBody>
         <div className="flex flex-col gap-2 text-pretty">
           <h3 className="font-medium">Big O Notation</h3>
           <p className="text-muted-foreground">
@@ -67,7 +70,7 @@ export const BigO = (props: React.ComponentProps<typeof Popover>) => {
             </ul>
           </div>
         </div>
-      </PopoverContent>
-    </Popover>
-  );
-};
+      </PopoverBody>
+    </PopoverContent>
+  </Popover>
+);

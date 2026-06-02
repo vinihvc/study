@@ -1,264 +1,266 @@
 "use client";
 
-import { Dialog as CommandDialogPrimitive } from "@base-ui/react/dialog";
-import { RiSearchLine } from "@remixicon/react";
-import type * as React from "react";
+import { Portal } from "@ark-ui/react";
+import { Combobox as ArkCombobox } from "@ark-ui/react/combobox";
+import { Dialog as ArkDialog } from "@ark-ui/react/dialog";
+import { SearchIcon } from "lucide-react";
+import type React from "react";
 import {
-  Autocomplete,
-  AutocompleteCollection,
-  AutocompleteEmpty,
-  AutocompleteGroup,
-  AutocompleteGroupLabel,
-  AutocompleteInput,
-  AutocompleteItem,
-  AutocompleteList,
-  AutocompleteSeparator,
-} from "@/components/ui/autocomplete";
+  Combobox,
+  ComboboxControl,
+  ComboboxEmpty,
+  ComboboxGroup,
+  ComboboxGroupLabel,
+  type ComboboxItem,
+  ComboboxList,
+  comboboxItemVariants,
+} from "@/components/ui/combobox";
+import {
+  Dialog,
+  type DialogContent,
+  DialogHeader,
+  DialogOverlay,
+  DialogPositioner,
+  DialogTrigger,
+  dialogContentVariants,
+} from "@/components/ui/dialog";
+import type { InputProps } from "@/components/ui/input";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/ui/input-group";
+import { MenuShortcut } from "@/components/ui/menu";
+import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 
-const CommandDialog = CommandDialogPrimitive.Root;
+export const CommandDialog = Dialog;
 
-const CommandDialogPortal = CommandDialogPrimitive.Portal;
+export const CommandDialogTrigger = (
+  props: React.ComponentProps<typeof DialogTrigger>
+) => <DialogTrigger data-slot="command-dialog-trigger" {...props} />;
 
-const CommandCreateHandle = CommandDialogPrimitive.createHandle;
-
-function CommandDialogTrigger(props: CommandDialogPrimitive.Trigger.Props) {
-  return (
-    <CommandDialogPrimitive.Trigger
-      data-slot="command-dialog-trigger"
-      {...props}
-    />
-  );
+interface CommandDialogContentProps
+  extends React.ComponentProps<typeof DialogContent> {
+  /**
+   * The description of the dialog
+   *
+   * @default "Search for a command to run..."
+   */
+  description?: string;
+  /**
+   * The title of the dialog
+   *
+   * @default "Command Palette"
+   */
+  title?: string;
 }
 
-function CommandDialogBackdrop({
-  className,
-  ...props
-}: CommandDialogPrimitive.Backdrop.Props) {
-  return (
-    <CommandDialogPrimitive.Backdrop
-      className={cn(
-        "fixed inset-0 z-50 bg-black/32 backdrop-blur-sm transition-all duration-200 data-ending-style:opacity-0 data-starting-style:opacity-0",
-        className
-      )}
-      data-slot="command-dialog-backdrop"
-      {...props}
-    />
-  );
-}
+export const CommandDialogContent = (props: CommandDialogContentProps) => {
+  const {
+    size = "lg",
+    title = "Command Palette",
+    description = "Search for a command to run...",
+    className,
+    children,
+    ...rest
+  } = props;
 
-function CommandDialogViewport({
-  className,
-  ...props
-}: CommandDialogPrimitive.Viewport.Props) {
   return (
-    <CommandDialogPrimitive.Viewport
-      className={cn(
-        "fixed inset-0 z-50 flex flex-col items-center px-4 py-[max(--spacing(4),4vh)] sm:py-[10vh]",
-        className
-      )}
-      data-slot="command-dialog-viewport"
-      {...props}
-    />
-  );
-}
+    <Portal>
+      <DialogOverlay />
 
-function CommandDialogPopup({
-  className,
-  children,
-  ...props
-}: CommandDialogPrimitive.Popup.Props) {
-  return (
-    <CommandDialogPortal>
-      <CommandDialogBackdrop />
-      <CommandDialogViewport>
-        <CommandDialogPrimitive.Popup
+      <DialogPositioner>
+        <ArkDialog.Content
           className={cn(
-            "relative row-start-2 flex max-h-105 min-h-0 w-full min-w-0 max-w-xl -translate-y-[calc(1.25rem*var(--nested-dialogs))] scale-[calc(1-0.1*var(--nested-dialogs))] flex-col rounded-md border bg-popover bg-clip-padding text-popover-foreground opacity-[calc(1-0.1*var(--nested-dialogs))] shadow-lg/5 outline-none transition-[scale,opacity,translate] duration-200 ease-in-out will-change-transform before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(var(--radius-md)-1px)] before:bg-muted/72 before:shadow-[0_-1px_--theme(--color-white/6%)] data-nested:data-ending-style:translate-y-8 data-nested:data-starting-style:translate-y-8 data-nested-dialog-open:origin-top data-ending-style:scale-98 data-starting-style:scale-98 data-ending-style:opacity-0 data-starting-style:opacity-0 **:data-[slot=scroll-area-viewport]:data-has-overflow-y:pe-1",
+            "max-sm:row-start-1",
+            dialogContentVariants({ size }),
+            "border-0 p-0",
             className
           )}
-          data-slot="command-dialog-popup"
-          {...props}
+          data-slot="command-dialog-content"
+          {...rest}
         >
-          {children}
-        </CommandDialogPrimitive.Popup>
-      </CommandDialogViewport>
-    </CommandDialogPortal>
-  );
-}
+          <DialogHeader
+            className="sr-only"
+            description={description}
+            title={title}
+          />
 
-function Command({
-  autoHighlight = "always",
-  keepHighlight = true,
-  ...props
-}: React.ComponentProps<typeof Autocomplete>) {
+          {children}
+        </ArkDialog.Content>
+      </DialogPositioner>
+    </Portal>
+  );
+};
+
+export const Command: ArkCombobox.RootComponent = (props) => {
+  const { lazyMount = true, unmountOnExit = true, className, ...rest } = props;
+
   return (
-    <Autocomplete
-      autoHighlight={autoHighlight}
-      inline
-      keepHighlight={keepHighlight}
+    <Combobox
+      className={cn(
+        "isolate",
+        "flex min-h-0 flex-1 flex-col",
+        "p-2",
+        "bg-popover",
+        "text-popover-foreground",
+        "rounded-2xl border",
+        className
+      )}
+      closeOnSelect={false}
+      disableLayer
+      inputBehavior="autohighlight"
+      lazyMount={lazyMount}
+      loopFocus={false}
       open
-      {...props}
+      selectionBehavior="clear"
+      unmountOnExit={unmountOnExit}
+      {...rest}
     />
   );
+};
+
+interface CommandInputProps
+  extends Omit<React.ComponentProps<typeof ArkCombobox.Input>, "size"> {
+  /**
+   * The size of the input
+   *
+   * @default "md"
+   */
+  size?: InputProps["size"];
 }
 
-function CommandInput({
-  className,
-  placeholder = undefined,
-  ...props
-}: React.ComponentProps<typeof AutocompleteInput>) {
+export const CommandContent = (
+  props: React.ComponentProps<typeof ArkCombobox.Content>
+) => {
+  const { className, ...rest } = props;
+
   return (
-    <div className="px-2.5 py-1.5">
-      <AutocompleteInput
-        autoFocus
-        className={cn(
-          "border-transparent! bg-transparent! shadow-none before:hidden has-focus-visible:ring-0",
-          className
-        )}
-        placeholder={placeholder}
-        size="lg"
-        startAddon={<RiSearchLine />}
-        {...props}
+    <ArkCombobox.Content
+      className={cn(
+        "flex flex-1 flex-col",
+        "max-h-(--available-height) min-h-0",
+        "-mr-2",
+        "outline-none",
+        "scrollbar-thin scrollbar-track-transparent scrollbar-thumb-foreground/20 overflow-auto overscroll-contain",
+        "[:not(.has-[+[data-slot=command-footer]])]:rounded-b-2xl [:not(.has-[+[data-slot=command-footer]])]:border-b",
+        className
+      )}
+      data-slot="command-content"
+      {...rest}
+    />
+  );
+};
+
+export const CommandInput = (props: CommandInputProps) => {
+  const { size = "md", className, ...rest } = props;
+
+  return (
+    <ComboboxControl className="mb-2">
+      <InputGroup
+        className={cn("rounded-xl bg-input/32", className)}
+        size={size}
+        {...rest}
+      >
+        <InputGroupAddon>
+          <SearchIcon aria-hidden className="opacity-64" />
+        </InputGroupAddon>
+        <ArkCombobox.Input asChild data-slot="command-input">
+          <InputGroupInput autoFocus />
+        </ArkCombobox.Input>
+      </InputGroup>
+    </ComboboxControl>
+  );
+};
+
+interface CommandListProps extends React.ComponentProps<typeof ComboboxList> {}
+
+export const CommandList = (props: CommandListProps) => {
+  const { className, ...rest } = props;
+
+  return (
+    <div className="max-h-72 min-h-0 flex-1">
+      <ComboboxList
+        className={cn("flex-1 pr-2.5", className)}
+        data-slot="command-list"
+        {...rest}
       />
     </div>
   );
-}
+};
 
-function CommandList({
-  className,
-  ...props
-}: React.ComponentProps<typeof AutocompleteList>) {
-  return (
-    <AutocompleteList
-      className={cn("not-empty:scroll-py-2 not-empty:p-2", className)}
-      data-slot="command-list"
-      {...props}
-    />
-  );
-}
+export const CommandEmpty = (
+  props: React.ComponentProps<typeof ComboboxEmpty>
+) => {
+  const { className, children, ...rest } = props;
 
-function CommandEmpty({
-  className,
-  ...props
-}: React.ComponentProps<typeof AutocompleteEmpty>) {
   return (
-    <AutocompleteEmpty
-      className={cn("not-empty:py-6", className)}
+    <ComboboxEmpty
+      className={cn("py-6 text-center text-sm", className)}
       data-slot="command-empty"
-      {...props}
+      {...rest}
+    >
+      {children || "No results found."}
+    </ComboboxEmpty>
+  );
+};
+
+export const CommandGroup = (
+  props: React.ComponentProps<typeof ComboboxGroup>
+) => <ComboboxGroup data-slot="command-group" {...props} />;
+
+export const CommandGroupLabel = (
+  props: React.ComponentProps<typeof ComboboxGroupLabel>
+) => <ComboboxGroupLabel data-slot="command-group-label" {...props} />;
+
+export const CommandItem = (
+  props: React.ComponentProps<typeof ComboboxItem>
+) => {
+  const { className, ...rest } = props;
+
+  return (
+    <ArkCombobox.Item
+      className={cn(comboboxItemVariants({ showIndicator: false }), className)}
+      data-slot="command-item"
+      persistFocus
+      {...rest}
     />
   );
-}
+};
 
-function CommandPanel({ className, ...props }: React.ComponentProps<"div">) {
+export const CommandSeparator = (props: React.ComponentProps<"div">) => {
+  const { className, ...rest } = props;
+
   return (
-    <div
-      className="relative -mx-px not-has-[+[data-slot=command-footer]]:-mb-px min-h-0 rounded-t-md not-has-[+[data-slot=command-footer]]:rounded-b-2xl border border-b-0 bg-popover bg-clip-padding shadow-xs/5 [clip-path:inset(0_1px)] not-has-[+[data-slot=command-footer]]:[clip-path:inset(0_1px_1px_1px_round_0_0_calc(var(--radius-md)-1px)_calc(var(--radius-md)-1px))] before:pointer-events-none before:absolute before:inset-0 before:rounded-t-[calc(var(--radius-md)-1px)] before:shadow-[0_-1px_--theme(--color-white/6%)] **:data-[slot=scroll-area-scrollbar]:mt-2"
-      {...props}
-    />
-  );
-}
-
-function CommandGroup({
-  className,
-  ...props
-}: React.ComponentProps<typeof AutocompleteGroup>) {
-  return (
-    <AutocompleteGroup
-      className={className}
-      data-slot="command-group"
-      {...props}
-    />
-  );
-}
-
-function CommandGroupLabel({
-  className,
-  ...props
-}: React.ComponentProps<typeof AutocompleteGroupLabel>) {
-  return (
-    <AutocompleteGroupLabel
-      className={className}
-      data-slot="command-group-label"
-      {...props}
-    />
-  );
-}
-
-function CommandCollection({
-  ...props
-}: React.ComponentProps<typeof AutocompleteCollection>) {
-  return <AutocompleteCollection data-slot="command-collection" {...props} />;
-}
-
-function CommandItem({
-  className,
-  ...props
-}: React.ComponentProps<typeof AutocompleteItem>) {
-  return (
-    <AutocompleteItem
-      className={cn("rounded-md py-1.5", className)}
-      data-slot="command-item "
-      {...props}
-    />
-  );
-}
-
-function CommandSeparator({
-  className,
-  ...props
-}: React.ComponentProps<typeof AutocompleteSeparator>) {
-  return (
-    <AutocompleteSeparator
+    <Separator
       className={cn("my-2", className)}
       data-slot="command-separator"
-      {...props}
+      {...rest}
     />
   );
-}
+};
 
-function CommandShortcut({ className, ...props }: React.ComponentProps<"kbd">) {
-  return (
-    <kbd
-      className={cn(
-        "ms-auto font-medium font-sans text-muted-foreground/72 text-xs tracking-widest",
-        className
-      )}
-      data-slot="command-shortcut"
-      {...props}
-    />
-  );
-}
+export const CommandShortcut = (
+  props: React.ComponentProps<typeof MenuShortcut>
+) => <MenuShortcut data-slot="command-shortcut" {...props} />;
 
-function CommandFooter({ className, ...props }: React.ComponentProps<"div">) {
+export const CommandFooter = (props: React.ComponentProps<"div">) => {
+  const { className, ...rest } = props;
+
   return (
     <div
       className={cn(
-        "flex items-center justify-between gap-2 rounded-b-[calc(var(--radius-md)-1px)] border-t px-5 py-3 text-muted-foreground text-xs",
+        "z-10",
+        "flex items-center justify-between gap-2",
+        "-m-2 mt-2 px-4 py-3",
+        "bg-muted/48",
+        "text-muted-foreground text-xs",
+        "rounded-b-[calc(var(--radius-2xl,1rem)-1px)] border-t",
         className
       )}
       data-slot="command-footer"
-      {...props}
+      {...rest}
     />
   );
-}
-
-export {
-  CommandCreateHandle,
-  Command,
-  CommandCollection,
-  CommandDialog,
-  CommandDialogPopup,
-  CommandDialogTrigger,
-  CommandEmpty,
-  CommandFooter,
-  CommandGroup,
-  CommandGroupLabel,
-  CommandInput,
-  CommandItem,
-  CommandList,
-  CommandPanel,
-  CommandSeparator,
-  CommandShortcut,
 };

@@ -86,29 +86,25 @@ function RouteComponent() {
         <div className="mt-auto flex items-center justify-between gap-4">
           <div>
             {exercise.prev.slug && (
-              <Button
-                render={
-                  <Link params={{ slug: exercise.prev.slug }} to="/e/$slug" />
-                }
-              >
-                <RiArrowLeftLine />
-                <span className="max-sm:hidden">
-                  Previous ({exercise.prev.title})
-                </span>
+              <Button asChild>
+                <Link params={{ slug: exercise.prev.slug }} to="/e/$slug">
+                  <RiArrowLeftLine />
+                  <span className="max-sm:hidden">
+                    Previous ({exercise.prev.title})
+                  </span>
+                </Link>
               </Button>
             )}
           </div>
 
           {exercise.next.slug && (
-            <Button
-              render={
-                <Link params={{ slug: exercise.next.slug }} to="/e/$slug" />
-              }
-            >
-              <span className="max-sm:hidden">
-                Next ({exercise.next.title})
-              </span>
-              <RiArrowRightLine />
+            <Button asChild>
+              <Link params={{ slug: exercise.next.slug }} to="/e/$slug">
+                <span className="max-sm:hidden">
+                  Next ({exercise.next.title})
+                </span>
+                <RiArrowRightLine />
+              </Link>
             </Button>
           )}
         </div>

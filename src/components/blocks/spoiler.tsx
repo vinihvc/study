@@ -74,7 +74,7 @@ export const Spoiler = (props: SpoilerProps) => {
               className="absolute -top-2 right-0 -translate-y-full opacity-0 transition-opacity group-hover:opacity-100"
               onClick={() => setAlwaysRevealed(false)}
               size="xs"
-              variant="success"
+              variant="secondary"
             >
               <RiCheckLine />
               Always revealing

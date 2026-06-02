@@ -4,6 +4,8 @@
 
 @import "@fontsource-variable/jetbrains-mono";
 
+@custom-variant dark (&:is(.dark *));
+
 @theme inline {
   --font-sans: "JetBrains Mono Variable", monospace;
   --font-mono: var(--font-sans);
@@ -146,11 +148,18 @@
   }
 
   html {
+    scrollbar-gutter: stable;
     @apply antialiased scroll-smooth;
   }
 
   body {
-    @apply bg-background text-foreground overflow-y-scroll min-h-dvh flex flex-col;
+    scrollbar-gutter: stable;
+    @apply bg-background text-foreground overflow-y-auto min-h-dvh flex flex-col;
+  }
+
+  /* Fixed elements ignore body scroll-lock padding */
+  html:has(body[data-scroll-lock]) [data-slot="site-header"] {
+    padding-inline-end: var(--scrollbar-width, 0px);
   }
 
   main {
@@ -173,4 +182,14 @@
 
 @utility heading-link {
   @apply link
+}
+
+.dark {
+  --destructive-foreground: var(--color-red-400);
+  --info: var(--color-blue-500);
+  --info-foreground: var(--color-blue-400);
+  --success: var(--color-emerald-500);
+  --success-foreground: var(--color-emerald-400);
+  --warning: var(--color-amber-500);
+  --warning-foreground: var(--color-amber-400);
 }

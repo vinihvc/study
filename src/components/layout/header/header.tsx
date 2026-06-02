@@ -20,27 +20,33 @@ export const Header = (props: HeaderProps) => {
   const isHome = router.location.pathname === "/";
 
   return (
-    <header className={cn("fixed inset-x-4 top-4 z-50", className)} {...rest}>
+    <header
+      className={cn("fixed inset-x-4 top-4 z-50", className)}
+      data-slot="site-header"
+      {...rest}
+    >
       <div className="container flex h-14 items-center justify-between rounded-md bg-card/60 shadow-md backdrop-blur-sm">
         <div className="flex items-center gap-2">
           <Button
-            className="zoom-in-95 animate-in blur-in-xs duration-300"
+            asChild
+            className="zoom-in-95 animate-in blur-in-xs duration-100"
             key={isHome ? "home" : "not-home"}
-            render={<Link to="/" />}
             size="lg"
             variant="ghost"
           >
-            {router.location.pathname === "/" ? (
-              <>
-                <RiCodeSSlashLine />
-                <span className="max-sm:hidden">Algorithms</span>
-              </>
-            ) : (
-              <>
-                <RiCornerDownLeftFill />
-                Back <span className="max-sm:hidden"> to Home</span>
-              </>
-            )}
+            <Link to="/">
+              {router.location.pathname === "/" ? (
+                <>
+                  <RiCodeSSlashLine />
+                  <span className="max-sm:hidden">Algorithms</span>
+                </>
+              ) : (
+                <>
+                  <RiCornerDownLeftFill />
+                  Back <span className="max-sm:hidden"> to Home</span>
+                </>
+              )}
+            </Link>
           </Button>
         </div>
 
@@ -50,20 +56,16 @@ export const Header = (props: HeaderProps) => {
           <Separator className="h-4" orientation="vertical" />
 
           <div>
-            <Button
-              render={
-                <a
-                  href={SITE_CONFIG.repoUrl}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  <span className="sr-only">GitHub</span>
-                  <RiGithubFill />
-                </a>
-              }
-              size="icon-md"
-              variant="outline"
-            />
+            <Button asChild size="icon-md" variant="outline">
+              <a
+                href={SITE_CONFIG.repoUrl}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <span className="sr-only">GitHub</span>
+                <RiGithubFill />
+              </a>
+            </Button>
           </div>
         </div>
       </div>

@@ -1,18 +1,18 @@
-import { RiLoader4Line } from "@remixicon/react";
+"use client";
+
+import { Loader2Icon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-function Spinner({
-  className,
-  ...props
-}: React.ComponentProps<typeof RiLoader4Line>) {
+export const Spinner = (props: React.ComponentProps<"svg">) => {
+  const { "aria-label": ariaLabel, className, ...rest } = props;
+
   return (
-    <RiLoader4Line
-      aria-label="Loading"
-      className={cn("animate-spin", className)}
+    <Loader2Icon
+      aria-label={ariaLabel ?? "Loading"}
+      className={cn("size-4 animate-spin", className)}
+      data-slot="spinner"
       role="status"
-      {...props}
+      {...rest}
     />
   );
-}
-
-export { Spinner };
+};

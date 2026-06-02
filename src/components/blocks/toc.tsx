@@ -29,15 +29,14 @@ export const ToC = (props: ToCProps) => {
 
   if (isMobile) {
     return (
-      <Popover>
-        <PopoverTrigger
-          className="fixed right-4 bottom-4 z-50"
-          render={<Button size="icon-lg" />}
-        >
-          <RiAlignLeft />
+      <Popover positioning={{ placement: "bottom-start" }}>
+        <PopoverTrigger asChild className="fixed right-4 bottom-4 z-50">
+          <Button size="icon-lg">
+            <RiAlignLeft />
+          </Button>
         </PopoverTrigger>
 
-        <PopoverContent align="end" className="w-72">
+        <PopoverContent className="w-72">
           <h3 className="flex items-center gap-2 font-semibold text-sm [&_svg]:size-4">
             <RiAlignLeft />
             On this page
@@ -48,10 +47,9 @@ export const ToC = (props: ToCProps) => {
               const isActive = heading.id === activeHeading;
 
               return (
-                <PopoverClose
-                  key={heading.id}
-                  render={<ToCItem heading={heading} isActive={isActive} />}
-                />
+                <PopoverClose asChild key={heading.id}>
+                  <ToCItem heading={heading} isActive={isActive} />
+                </PopoverClose>
               );
             })}
           </ul>

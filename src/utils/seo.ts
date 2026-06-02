@@ -1,9 +1,9 @@
 interface SeoProps {
-  title: string;
+  creator?: string;
   description?: string;
   image?: string;
   keywords?: string;
-  creator?: string;
+  title: string;
 }
 
 export const generateSeoTags = (props: SeoProps) => {

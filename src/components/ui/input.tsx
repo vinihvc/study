@@ -1,66 +1,56 @@
 "use client";
 
-import { Input as InputPrimitive } from "@base-ui/react/input";
-import type * as React from "react";
-
+import { FieldInput } from "@ark-ui/react/field";
+import type React from "react";
+import { tv, type VariantProps } from "tailwind-variants";
 import { cn } from "@/lib/utils";
 
-type InputProps = Omit<
-  InputPrimitive.Props & React.RefAttributes<HTMLInputElement>,
-  "size"
-> & {
-  size?: "sm" | "default" | "lg" | number;
-  unstyled?: boolean;
-  nativeInput?: boolean;
-};
+export const inputVariants = tv({
+  base: [
+    "peer",
+    "w-full min-w-0",
+    "px-3",
+    "bg-transparent dark:bg-input/30",
+    "text-base md:text-sm",
+    "rounded-lg border border-input shadow-xs/5",
+    "placeholder:text-muted-foreground/64",
+    "file:inline-flex file:h-7 file:items-center file:border-0",
+    "file:font-medium file:text-foreground file:text-sm",
+    "transition-[color,box-shadow]",
+    "outline-none focus-visible:border-primary focus-visible:ring-[3px] focus-visible:ring-ring/32",
+    "aria-invalid:border-destructive aria-invalid:text-destructive aria-invalid:ring-[3px] aria-invalid:ring-destructive/24",
+    "data-invalid:border-destructive data-invalid:text-destructive data-invalid:ring-[3px] data-invalid:ring-destructive/24",
+    "dark:aria-invalid:border-destructive-foreground dark:aria-invalid:text-destructive-foreground dark:aria-invalid:ring-destructive-foreground/40",
+    "dark:data-invalid:border-destructive-foreground dark:data-invalid:text-destructive-foreground dark:data-invalid:ring-destructive-foreground/40",
+    "disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-64",
+    "motion-reduce:transition-none!",
+  ],
+  variants: {
+    size: {
+      sm: ["h-7"],
+      md: ["h-8"],
+      lg: ["h-9"],
+    },
+  },
+  defaultVariants: {
+    size: "md",
+  },
+});
 
-function Input({
-  className,
-  size = "default",
-  unstyled = false,
-  nativeInput = false,
-  ...props
-}: InputProps) {
-  const inputClassName = cn(
-    "h-8.5 w-full min-w-0 rounded-[inherit] px-[calc(--spacing(3)-1px)] leading-8.5 outline-none placeholder:text-muted-foreground/72 sm:h-7.5 sm:leading-7.5",
-    size === "sm" &&
-      "h-7.5 px-[calc(--spacing(2.5)-1px)] leading-7.5 sm:h-6.5 sm:leading-6.5",
-    size === "lg" && "h-9.5 leading-9.5 sm:h-8.5 sm:leading-8.5",
-    props.type === "search" &&
-      "[&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none [&::-webkit-search-results-button]:appearance-none [&::-webkit-search-results-decoration]:appearance-none",
-    props.type === "file" &&
-      "text-muted-foreground file:me-3 file:bg-transparent file:font-medium file:text-foreground file:text-sm"
-  );
+export interface InputProps
+  extends Omit<React.ComponentProps<typeof FieldInput>, "size">,
+    VariantProps<typeof inputVariants> {}
+
+export const Input = (props: InputProps) => {
+  const { size = "md", type = "text", className, ...rest } = props;
 
   return (
-    <span
-      className={
-        cn(
-          !unstyled &&
-            "relative inline-flex w-full rounded-md border border-input bg-input/32 text-base shadow-xs/5 ring-ring/24 transition-shadow before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(var(--radius-md)-1px)] not-has-disabled:not-has-focus-visible:not-has-aria-invalid:before:shadow-[0_-1px_--theme(--color-white/6%)] has-focus-visible:has-aria-invalid:border-destructive/64 has-focus-visible:has-aria-invalid:ring-destructive/16 has-aria-invalid:border-destructive/36 has-focus-visible:border-ring has-disabled:opacity-64 has-[:disabled,:focus-visible,[aria-invalid]]:shadow-none has-aria-invalid:ring-destructive/24 has-focus-visible:ring-[3px] sm:text-sm",
-          className
-        ) || undefined
-      }
+    <FieldInput
+      className={cn(inputVariants({ size }), className)}
       data-size={size}
-      data-slot="input-control"
-    >
-      {nativeInput ? (
-        <input
-          className={inputClassName}
-          data-slot="input"
-          size={typeof size === "number" ? size : undefined}
-          {...props}
-        />
-      ) : (
-        <InputPrimitive
-          className={inputClassName}
-          data-slot="input"
-          size={typeof size === "number" ? size : undefined}
-          {...props}
-        />
-      )}
-    </span>
+      data-slot="input"
+      type={type}
+      {...rest}
+    />
   );
-}
-
-export { Input, type InputProps };
+};

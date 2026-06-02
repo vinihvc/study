@@ -1,64 +1,99 @@
 "use client";
 
-import { ScrollArea as ScrollAreaPrimitive } from "@base-ui/react/scroll-area";
-
+import {
+  ScrollArea as ArkScrollArea,
+  useScrollAreaContext,
+} from "@ark-ui/react/scroll-area";
+import type React from "react";
+import { tv, type VariantProps } from "tailwind-variants";
 import { cn } from "@/lib/utils";
 
-function ScrollArea({
-  className,
-  children,
-  scrollFade = false,
-  scrollbarGutter = false,
-  ...props
-}: ScrollAreaPrimitive.Root.Props & {
-  scrollFade?: boolean;
-  scrollbarGutter?: boolean;
-}) {
+export const useScrollArea = useScrollAreaContext;
+
+const scrollAreaVariants = tv({
+  base: [
+    "h-full",
+    "rounded-[inherit]",
+    "outline-none",
+    "scrollbar-none",
+    "outline-none",
+  ],
+  variants: {
+    scrollFade: {
+      true: [
+        "mask-t-from-[calc(100%-var(--fade-size))]",
+        "mask-b-from-[calc(100%-var(--fade-size))]",
+        "data-at-top:mask-t-from-100%",
+        "data-at-bottom:mask-b-from-100%",
+        "transition-shadow",
+        "motion-reduce:transition-none!",
+      ],
+    },
+  },
+  defaultVariants: {
+    scrollFade: false,
+  },
+});
+
+interface ScrollAreaProps
+  extends React.ComponentProps<typeof ArkScrollArea.Root>,
+    VariantProps<typeof scrollAreaVariants> {}
+
+export const ScrollArea = (props: ScrollAreaProps) => {
+  const { scrollFade = false, className, children, ...rest } = props;
+
   return (
-    <ScrollAreaPrimitive.Root
-      className={cn("size-full min-h-0", className)}
-      {...props}
+    <ArkScrollArea.Root
+      className={cn("size-full min-h-0 [--fade-size:1.5rem]", className)}
+      data-slot="scroll-area"
+      {...rest}
     >
-      <ScrollAreaPrimitive.Viewport
-        className={cn(
-          "h-full rounded-[inherit] outline-none transition-shadows focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background data-has-overflow-x:overscroll-x-contain",
-          scrollFade &&
-            "mask-t-from-[calc(100%-min(var(--fade-size),var(--scroll-area-overflow-y-start)))] mask-b-from-[calc(100%-min(var(--fade-size),var(--scroll-area-overflow-y-end)))] mask-l-from-[calc(100%-min(var(--fade-size),var(--scroll-area-overflow-x-start)))] mask-r-from-[calc(100%-min(var(--fade-size),var(--scroll-area-overflow-x-end)))] [--fade-size:1.5rem]",
-          scrollbarGutter &&
-            "data-has-overflow-y:pe-2.5 data-has-overflow-x:pb-2.5"
-        )}
+      <ArkScrollArea.Viewport
+        className={cn(scrollAreaVariants({ scrollFade }))}
         data-slot="scroll-area-viewport"
       >
-        {children}
-      </ScrollAreaPrimitive.Viewport>
-      <ScrollBar orientation="vertical" />
-      <ScrollBar orientation="horizontal" />
-      <ScrollAreaPrimitive.Corner data-slot="scroll-area-corner" />
-    </ScrollAreaPrimitive.Root>
-  );
-}
+        <ArkScrollArea.Content data-slot="scroll-area-content">
+          {children}
+        </ArkScrollArea.Content>
+      </ArkScrollArea.Viewport>
 
-function ScrollBar({
-  className,
-  orientation = "vertical",
-  ...props
-}: ScrollAreaPrimitive.Scrollbar.Props) {
+      <ScrollAreaScrollbar orientation="vertical" />
+      <ScrollAreaScrollbar orientation="horizontal" />
+
+      <ArkScrollArea.Corner data-slot="scroll-area-corner" />
+    </ArkScrollArea.Root>
+  );
+};
+
+export const ScrollAreaScrollbar = (
+  props: React.ComponentProps<typeof ArkScrollArea.Scrollbar>
+) => {
+  const { orientation, className, ...rest } = props;
+
   return (
-    <ScrollAreaPrimitive.Scrollbar
+    <ArkScrollArea.Scrollbar
       className={cn(
-        "m-1 flex opacity-0 transition-opacity delay-300 data-[orientation=horizontal]:h-1.5 data-[orientation=vertical]:w-1.5 data-[orientation=horizontal]:flex-col data-hovering:opacity-100 data-scrolling:opacity-100 data-hovering:delay-0 data-scrolling:delay-0 data-hovering:duration-100 data-scrolling:duration-100",
+        "flex",
+        "m-1",
+        "bg-transparent",
+        "opacity-0 transition-opacity delay-300",
+        "data-[orientation=vertical]:w-1.5",
+        "data-[orientation=horizontal]:h-1.5 data-[orientation=horizontal]:flex-col",
+        "data-hover:opacity-100 data-hover:delay-0 data-hover:duration-100",
+        "data-scrolling:opacity-100 data-scrolling:delay-0 data-scrolling:duration-100",
+        "data-[orientation=vertical]:in-[[data-slot=scroll-area]:not([data-overflow-y])]:hidden",
+        "data-[orientation=horizontal]:in-[[data-slot=scroll-area]:not([data-overflow-x])]:hidden",
+        "motion-reduce:transition-none!",
         className
       )}
       data-slot="scroll-area-scrollbar"
       orientation={orientation}
-      {...props}
+      {...rest}
     >
-      <ScrollAreaPrimitive.Thumb
+      <ArkScrollArea.Thumb
         className="relative flex-1 rounded-full bg-foreground/20"
         data-slot="scroll-area-thumb"
       />
-    </ScrollAreaPrimitive.Scrollbar>
+    </ArkScrollArea.Scrollbar>
   );
-}
-
-export { ScrollArea, ScrollBar };
+};

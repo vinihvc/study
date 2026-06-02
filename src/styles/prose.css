@@ -1,19 +1,19 @@
 .prose h1:not(.not-prose h1) {
-  scroll-margin: calc(var(--spacing) * 20);
   font-size: var(--text-2xl);
-  line-height: var(--text-2xl--line-height);
   font-weight: 800;
+  line-height: var(--text-2xl--line-height);
   letter-spacing: var(--tracking-tight);
+  scroll-margin: calc(var(--spacing) * 20);
 }
 
 .prose h2:not(.not-prose h2) {
-  scroll-margin: calc(var(--spacing) * 20);
   padding-bottom: calc(var(--spacing) * 2);
-  font-size: var(--text-xl);
-  line-height: var(--text-xl--line-height);
-  font-weight: 600;
-  letter-spacing: var(--tracking-tight);
   margin-top: calc(var(--spacing) * 8);
+  font-size: var(--text-xl);
+  font-weight: 600;
+  line-height: var(--text-xl--line-height);
+  letter-spacing: var(--tracking-tight);
+  scroll-margin: calc(var(--spacing) * 20);
 }
 
 .prose h2:not(.not-prose h2):first-child {
@@ -21,12 +21,12 @@
 }
 
 .prose h3:not(.not-prose h3) {
-  scroll-margin: calc(var(--spacing) * 20);
-  font-size: var(--text-lg);
-  line-height: var(--text-lg--line-height);
-  font-weight: 600;
-  letter-spacing: var(--tracking-tight);
   margin-top: calc(var(--spacing) * 8);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  line-height: var(--text-lg--line-height);
+  letter-spacing: var(--tracking-tight);
+  scroll-margin: calc(var(--spacing) * 20);
 }
 
 .prose h3:not(.not-prose h3):first-child {
@@ -34,12 +34,12 @@
 }
 
 .prose h4:not(.not-prose h4) {
-  scroll-margin: calc(var(--spacing) * 20);
-  font-size: var(--text-xl);
-  line-height: var(--text-xl--line-height);
-  font-weight: 600;
-  letter-spacing: var(--tracking-tight);
   margin-top: calc(var(--spacing) * 8);
+  font-size: var(--text-xl);
+  font-weight: 600;
+  line-height: var(--text-xl--line-height);
+  letter-spacing: var(--tracking-tight);
+  scroll-margin: calc(var(--spacing) * 20);
 }
 
 .prose h4:not(.not-prose h4):first-child {
@@ -47,12 +47,12 @@
 }
 
 .prose h5:not(.not-prose h5) {
-  scroll-margin: calc(var(--spacing) * 20);
-  font-size: var(--text-lg);
-  line-height: var(--text-lg--line-height);
-  font-weight: 600;
-  letter-spacing: var(--tracking-tight);
   margin-top: calc(var(--spacing) * 8);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  line-height: var(--text-lg--line-height);
+  letter-spacing: var(--tracking-tight);
+  scroll-margin: calc(var(--spacing) * 20);
 }
 
 .prose h5:not(.not-prose h5):first-child {
@@ -60,12 +60,12 @@
 }
 
 .prose h6:not(.not-prose h6) {
-  scroll-margin: calc(var(--spacing) * 20);
-  font-size: var(--text-base);
-  line-height: var(--text-base--line-height);
-  font-weight: 600;
-  letter-spacing: var(--tracking-tight);
   margin-top: calc(var(--spacing) * 8);
+  font-size: var(--text-base);
+  font-weight: 600;
+  line-height: var(--text-base--line-height);
+  letter-spacing: var(--tracking-tight);
+  scroll-margin: calc(var(--spacing) * 20);
 }
 
 .prose h6:not(.not-prose h6):first-child {
@@ -101,23 +101,23 @@
 }
 
 .prose blockquote:not(.not-prose blockquote) {
-  margin-top: calc(var(--spacing) * 6);
-  border-left: 2px solid var(--color-border);
   padding-left: calc(var(--spacing) * 6);
+  margin-top: calc(var(--spacing) * 6);
   font-style: italic;
+  border-left: 2px solid var(--color-border);
 }
 
 .prose table:not(.not-prose table) {
+  width: 100%;
   margin-top: calc(var(--spacing) * 6);
   margin-bottom: calc(var(--spacing) * 6);
-  width: 100%;
   overflow-y: auto;
 }
 
 .prose table:not(.not-prose table) thead tr {
+  padding: 0;
   margin: 0;
   border-top: 1px solid var(--color-border);
-  padding: 0;
 }
 
 .prose table:not(.not-prose table) thead tr:nth-child(even) {
@@ -125,10 +125,10 @@
 }
 
 .prose table:not(.not-prose table) th {
-  border: 1px solid var(--color-border);
   padding: calc(var(--spacing) * 2) calc(var(--spacing) * 4);
-  text-align: left;
   font-weight: 700;
+  text-align: left;
+  border: 1px solid var(--color-border);
 }
 
 .prose table:not(.not-prose table) th[align="center"] {
@@ -139,9 +139,9 @@
   text-align: right;
 }
 .prose table:not(.not-prose table) tbody tr {
+  padding: 0;
   margin: 0;
   border-top: 1px solid var(--color-border);
-  padding: 0;
 }
 
 .prose table:not(.not-prose table) tbody tr:nth-child(even) {
@@ -149,9 +149,9 @@
 }
 
 .prose table:not(.not-prose table) td {
-  border: 1px solid var(--color-border);
   padding: calc(var(--spacing) * 2) calc(var(--spacing) * 4);
   text-align: left;
+  border: 1px solid var(--color-border);
 }
 
 .prose table:not(.not-prose table) td[align="center"] {
@@ -173,9 +173,9 @@
 }
 
 .prose ul:not(.not-prose ul) p {
+  display: inline;
   margin-top: 0;
   margin-bottom: 0;
-  display: inline;
 }
 
 .prose ol:not(.not-prose ol) {
@@ -189,9 +189,9 @@
 }
 
 .prose ol:not(.not-prose ol) p {
+  display: inline;
   margin-top: 0;
   margin-bottom: 0;
-  display: inline;
 }
 
 .prose .lead:not(.not-prose .lead) {
@@ -202,14 +202,14 @@
 
 .prose .large:not(.not-prose .large) {
   font-size: var(--text-lg);
-  line-height: var(--text-lg--line-height);
   font-weight: 600;
+  line-height: var(--text-lg--line-height);
 }
 
 .prose .small:not(.not-prose .small) {
   font-size: var(--text-sm);
-  line-height: 1;
   font-weight: 500;
+  line-height: 1;
 }
 
 .prose .muted:not(.not-prose .muted) {
@@ -231,12 +231,12 @@
 }
 
 .prose kbd:not(.not-prose kbd) {
-  border-radius: calc(var(--radius) - 2px);
-  background-color: var(--color-muted);
   padding: calc(var(--spacing) * 0.5) calc(var(--spacing) * 1.5);
   font-size: var(--text-xs);
-  line-height: var(--text-xs--line-height);
   font-weight: 600;
+  line-height: var(--text-xs--line-height);
+  background-color: var(--color-muted);
+  border-radius: calc(var(--radius) - 2px);
 }
 
 .prose hr {
@@ -250,8 +250,8 @@
 }
 
 .prose dl:not(.not-prose dl) dt {
-  font-weight: 600;
   margin-top: calc(var(--spacing) * 6);
+  font-weight: 600;
   letter-spacing: var(--tracking-tight);
 }
 
@@ -264,10 +264,10 @@
 }
 
 .prose details:not(.not-prose details) summary {
-  cursor: pointer;
-  font-weight: 600;
   margin-top: calc(var(--spacing) * 6);
+  font-weight: 600;
   letter-spacing: var(--tracking-tight);
+  cursor: pointer;
 }
 
 .prose details:not(.not-prose details) p:first-of-type {

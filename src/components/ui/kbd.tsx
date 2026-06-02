@@ -1,28 +1,56 @@
-import type * as React from "react";
+"use client";
 
+import { ark } from "@ark-ui/react/factory";
+import type React from "react";
+import { tv, type VariantProps } from "tailwind-variants";
 import { cn } from "@/lib/utils";
 
-function Kbd({ className, ...props }: React.ComponentProps<"kbd">) {
+const kbdVariants = tv({
+  base: [
+    "h-5 min-w-5",
+    "px-1",
+    "inline-flex items-center justify-center gap-1",
+    "select-none font-medium font-sans text-foreground text-xs",
+    "rounded-sm border border-transparent",
+    "pointer-events-none",
+    "in-data-[slot=tooltip-content]:bg-background/20 in-data-[slot=tooltip-content]:text-background",
+    "[&_svg:not([class*='size-'])]:size-3",
+  ],
+  variants: {
+    variant: {
+      default: "bg-muted",
+      outline: "border border-border",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+  },
+});
+
+interface KbdProps
+  extends React.ComponentProps<typeof ark.kbd>,
+    VariantProps<typeof kbdVariants> {}
+
+export const Kbd = (props: KbdProps) => {
+  const { variant = "default", className, ...rest } = props;
+
   return (
-    <kbd
-      className={cn(
-        "pointer-events-none inline-flex h-5 min-w-5 select-none items-center justify-center gap-1 rounded bg-muted px-1 font-medium font-sans text-muted-foreground text-xs [&_svg:not([class*='size-'])]:size-3",
-        className
-      )}
+    <ark.kbd
+      className={cn(kbdVariants({ variant }), className)}
       data-slot="kbd"
-      {...props}
+      {...rest}
     />
   );
-}
+};
 
-function KbdGroup({ className, ...props }: React.ComponentProps<"kbd">) {
+export const KbdGroup = (props: React.ComponentProps<typeof ark.div>) => {
+  const { className, ...rest } = props;
+
   return (
-    <kbd
+    <ark.div
       className={cn("inline-flex items-center gap-1", className)}
       data-slot="kbd-group"
-      {...props}
+      {...rest}
     />
   );
-}
-
-export { Kbd, KbdGroup };
+};

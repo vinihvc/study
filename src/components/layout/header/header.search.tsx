@@ -1,3 +1,4 @@
+import { useListCollection } from "@ark-ui/react/collection";
 import {
   RiArrowDownLine,
   RiArrowUpLine,
@@ -11,23 +12,45 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Command,
+  CommandContent,
   CommandDialog,
-  CommandDialogPopup,
+  CommandDialogContent,
   CommandDialogTrigger,
   CommandEmpty,
   CommandFooter,
   CommandInput,
   CommandItem,
   CommandList,
-  CommandPanel,
 } from "@/components/ui/command";
 import { Kbd, KbdGroup } from "@/components/ui/kbd";
 import { DIFFICULTY_MAP } from "@/types/difficulty";
+
+type SearchExerciseItem = {
+  label: string;
+  value: string;
+  slug: string;
+  title: string;
+  difficulty: (typeof allExercises)[number]["difficulty"];
+};
+
+const searchItems: SearchExerciseItem[] = allExercises.map((exercise) => ({
+  value: exercise.slug,
+  label: exercise.title,
+  slug: exercise.slug,
+  title: exercise.title,
+  difficulty: exercise.difficulty,
+}));
 
 export const HeaderSearch = () => {
   const navigate = useNavigate();
 
   const [open, setOpen] = React.useState(false);
+
+  const { collection, filter } = useListCollection<SearchExerciseItem>({
+    initialItems: searchItems,
+    filter: (itemText, filterText) =>
+      itemText.toLowerCase().includes(filterText.toLowerCase()),
+  });
 
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -41,51 +64,56 @@ export const HeaderSearch = () => {
     return () => document.removeEventListener("keydown", down);
   }, []);
 
-  return (
-    <CommandDialog onOpenChange={setOpen} open={open}>
-      <CommandDialogTrigger
-        render={
-          <Button className="bg-input/5" variant="outline">
-            <RiSearchLine />
-            <span className="max-sm:hidden">Search...</span>
-            <KbdGroup className="max-sm:hidden">
-              <Kbd>⌘</Kbd>
-              <Kbd>K</Kbd>
-            </KbdGroup>
-          </Button>
-        }
-      />
+  const handleSelect = (slug: string) => {
+    setOpen(false);
+    navigate({
+      to: "/e/$slug",
+      params: { slug },
+    });
+  };
 
-      <CommandDialogPopup>
+  return (
+    <CommandDialog
+      onOpenChange={(details) => setOpen(details.open)}
+      open={open}
+    >
+      <CommandDialogTrigger asChild>
+        <Button className="bg-input/5" variant="outline">
+          <RiSearchLine />
+          <span className="max-sm:hidden">Search...</span>
+          <KbdGroup className="max-sm:hidden">
+            <Kbd>⌘</Kbd>
+            <Kbd>K</Kbd>
+          </KbdGroup>
+        </Button>
+      </CommandDialogTrigger>
+
+      <CommandDialogContent>
         <Command
-          items={allExercises.map((exercise) => ({
-            value: exercise.slug,
-            label: exercise.title,
-            slug: exercise.slug,
-            title: exercise.title,
-            difficulty: exercise.difficulty,
-          }))}
+          collection={collection}
+          onInputValueChange={({ inputValue }) => filter(inputValue)}
+          onValueChange={({ value }) => {
+            const slug = value.at(0);
+
+            if (slug) {
+              handleSelect(slug);
+            }
+          }}
         >
           <CommandInput placeholder="Search..." />
 
-          <CommandPanel>
+          <CommandContent>
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandList>
-              {(item: (typeof allExercises)[number]) => {
+              {collection.items.map((item) => {
                 const difficulty = DIFFICULTY_MAP[item.difficulty];
 
                 return (
                   <CommandItem
                     className="flex items-center justify-between gap-2"
-                    key={item.slug}
-                    onClick={() => {
-                      setOpen(false);
-                      navigate({
-                        to: "/e/$slug",
-                        params: { slug: item.slug },
-                      });
-                    }}
-                    value={item.title}
+                    item={item}
+                    key={item.value}
+                    onClick={() => handleSelect(item.slug)}
                   >
                     <span>{item.title}</span>
 
@@ -98,9 +126,9 @@ export const HeaderSearch = () => {
                     </Badge>
                   </CommandItem>
                 );
-              }}
+              })}
             </CommandList>
-          </CommandPanel>
+          </CommandContent>
 
           <CommandFooter>
             <div className="flex items-center gap-4">
@@ -128,7 +156,7 @@ export const HeaderSearch = () => {
             </div>
           </CommandFooter>
         </Command>
-      </CommandDialogPopup>
+      </CommandDialogContent>
     </CommandDialog>
   );
 };
