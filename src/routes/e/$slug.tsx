@@ -1,7 +1,9 @@
 import { RiArrowLeftLine, RiArrowRightLine } from "@remixicon/react";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { allExercises } from "content-collections";
-import { ToC } from "@/components/blocks/toc";
+import { CodeBlocks } from "@/components/blocks/code-blocks";
+import { CodeBlocksDrawer } from "@/components/blocks/code-blocks-drawer";
+import { ExerciseExamples } from "@/components/blocks/exercise-examples";
 import { ContentBlock } from "@/components/content-block";
 import { BigO } from "@/components/knowledge/big-o";
 import { Badge } from "@/components/ui/badge";
@@ -45,8 +47,8 @@ function RouteComponent() {
 
   return (
     <main>
-      <div className="container flex flex-1 flex-col gap-10">
-        <div className="flex gap-8">
+      <div className="container flex max-w-7xl flex-1 flex-col gap-10">
+        <div className="flex flex-col gap-8 lg:flex-row lg:items-start">
           <article className="min-w-0 flex-1">
             <div className="flex flex-col gap-2">
               <div>
@@ -71,13 +73,16 @@ function RouteComponent() {
             <div className="prose min-w-0">
               <ContentBlock code={exercise.mdx} />
             </div>
+
+            <ExerciseExamples tests={exercise.tests} />
           </article>
 
-          <ToC
-            className="sticky top-28 max-w-48 max-md:hidden lg:max-w-64"
-            headings={exercise.headings}
-          />
+          <aside className="hidden w-full shrink-0 lg:sticky lg:top-28 lg:block lg:w-xl">
+            <CodeBlocks slug={exercise.slug} starter={exercise.starter} />
+          </aside>
         </div>
+
+        <CodeBlocksDrawer slug={exercise.slug} starter={exercise.starter} />
 
         <div>
           <BigO />

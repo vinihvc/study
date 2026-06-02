@@ -1,9 +1,9 @@
 export const SITE_CONFIG = {
-  name: "Algorithms",
-  description: "Algorithms is a collection of algorithms and data structures.",
-  url: "https://algorithms.vini.one",
+  name: "Study",
+  description: "Study is a collection of algorithms and data structures.",
+  url: "https://study.vini.one",
   creator: "@vinihvc",
-  keywords: "algorithms, data structures, programming, computer science",
-  repoUrl: "https://github.com/vinihvc/algorithms",
+  keywords: "study, algorithms, data structures, programming, computer science",
+  repoUrl: "https://github.com/vinihvc/study",
   ogImage: "/og-image.png",
 } as const;

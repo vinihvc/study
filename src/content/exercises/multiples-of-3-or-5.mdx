@@ -1,0 +1,38 @@
+---
+title: Multiples of 3 or 5
+excerpt: Sum multiples of 3 or 5 below a limit
+description: Find the sum of all natural numbers below a given limit that are multiples of 3 or 5.
+difficulty: easy
+solved: false
+starter: |
+  const sumMultiplesOf3Or5 = (limit) => {
+    // Your implementation here
+  };
+
+  console.log(sumMultiplesOf3Or5(10));
+tests:
+  - name: Below 10
+    code: sumMultiplesOf3Or5(10)
+    expectedInput: { limit: 10 }
+    expectedResult: 23
+  - name: Below 1000
+    code: sumMultiplesOf3Or5(1000)
+    expectedInput: { limit: 1000 }
+    expectedResult: 233168
+  - name: Below 1
+    code: sumMultiplesOf3Or5(1)
+    expectedInput: { limit: 1 }
+    expectedResult: 0
+---
+
+If we list all the natural numbers **below** 10 that are multiples of 3 or 5, we get 3, 5, 6 and 9. The sum of these multiples is 23.
+
+Find the sum of all the multiples of 3 or 5 below 1000.
+
+## How to Solve
+
+<Spoiler>
+
+Iterate from 1 to `limit - 1` and add each number that is divisible by 3 or 5. Alternatively, use inclusion–exclusion: sum multiples of 3, plus multiples of 5, minus multiples of 15 (counted twice).
+
+</Spoiler>

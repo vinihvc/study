@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  RiCheckLine,
-  RiCloseLine,
-  RiEyeCloseLine,
-  RiEyeLine,
-} from "@remixicon/react";
+import { RiEyeCloseLine, RiEyeLine } from "@remixicon/react";
 import React from "react";
 import { useLocalStorage } from "usehooks-ts";
 import { cn } from "@/lib/utils";
@@ -30,68 +25,66 @@ export const Spoiler = (props: SpoilerProps) => {
       data-status={revealed ? "revealed" : "hidden"}
       {...rest}
     >
-      <div className="in-data-[status=hidden]:blur-md">{children}</div>
-
-      {!revealed && (
-        <div className="absolute inset-0 flex items-center justify-center rounded-md border bg-card/20">
-          <button
-            className="peer absolute inset-0 outline-none"
-            onClick={() => setRevealed(true)}
-            type="button"
-          >
-            <span className="sr-only">Click to reveal</span>
-          </button>
-
-          <div
-            className={cn(
-              "pointer-events-none size-full",
-              "flex items-center justify-center gap-2",
-              "px-4",
-              "font-medium text-xs",
-              "ring-ring peer-focus-visible:ring-2"
-            )}
-          >
-            <RiEyeLine className="size-4" />
-            Click to reveal
-          </div>
-        </div>
-      )}
-
       {revealed && (
-        <>
-          <Button
-            className="absolute top-2 right-2"
-            onClick={() => setRevealed(false)}
-            size="sm"
-            variant="outline"
-          >
-            <RiEyeCloseLine />
-            <span className="sr-only">Click to hide</span>
-          </Button>
-
+        <div className="absolute -top-1 right-2 flex -translate-y-full items-center justify-end gap-2 opacity-0 transition-opacity group-hover:opacity-100">
           {alwaysRevealed ? (
             <Button
-              className="absolute -top-2 right-0 -translate-y-full opacity-0 transition-opacity group-hover:opacity-100"
               onClick={() => setAlwaysRevealed(false)}
-              size="xs"
+              size="sm"
               variant="secondary"
             >
-              <RiCheckLine />
               Always revealing
             </Button>
           ) : (
             <Button
-              className="absolute -top-2 right-0 -translate-y-full opacity-0 transition-opacity group-hover:opacity-100"
+              className="bg-destructive/32 hover:bg-destructive/40"
               onClick={() => setAlwaysRevealed(true)}
-              size="xs"
-              variant="destructive"
+              size="sm"
+              variant="secondary"
             >
-              <RiCloseLine />
               Never revealing
             </Button>
           )}
-        </>
+
+          <Button
+            onClick={() => setRevealed(false)}
+            size="sm"
+            variant="secondary"
+          >
+            <RiEyeCloseLine />
+            <span className="sr-only">Click to hide</span>
+          </Button>
+        </div>
       )}
+
+      <div className="relative overflow-hidden rounded-md">
+        <div className="in-data-[status=hidden]:blur-md">{children}</div>
+
+        {!revealed && (
+          <div className="absolute inset-0 flex items-center justify-center rounded-md border bg-card/20">
+            <button
+              className="peer absolute inset-0 outline-none"
+              onClick={() => setRevealed(true)}
+              type="button"
+            >
+              <span className="sr-only">Click to reveal</span>
+            </button>
+
+            <div
+              className={cn(
+                "pointer-events-none size-full",
+                "flex items-center justify-center gap-2",
+                "px-4",
+                "font-medium text-xs",
+                "ring-ring peer-focus-visible:ring-2"
+              )}
+            >
+              <RiEyeLine className="size-4" />
+              Click to reveal
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

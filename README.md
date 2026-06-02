@@ -1,4 +1,4 @@
-# Algorithms
+# Study
 
 A collection of algorithms and data structures.
 

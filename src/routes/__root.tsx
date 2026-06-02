@@ -1,6 +1,7 @@
 /// <reference types="vite/client" />
 import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import type * as React from "react";
+import { MediaQuery } from "@/components/debug/media-query";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { StripedPattern } from "@/components/layout/header/striped-pattern";
@@ -29,7 +30,7 @@ export const Route = createRootRoute({
       }),
       {
         name: "title",
-        template: "Algorithms - %s",
+        template: "Study - %s",
       },
     ],
     links: [
@@ -81,6 +82,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         {children}
 
         <Footer />
+
+        <MediaQuery />
 
         <Scripts />
       </body>

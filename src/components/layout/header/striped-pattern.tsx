@@ -1,5 +1,4 @@
-import type React from "react";
-import { useId } from "react";
+import React from "react";
 import { cn } from "@/lib/utils";
 
 interface StripedPatternProps extends React.ComponentProps<"svg"> {
@@ -18,7 +17,7 @@ export const StripedPattern = (props: StripedPatternProps) => {
     ...rest
   } = props;
 
-  const id = useId();
+  const id = React.useId();
   const w = Number(width);
   const h = Number(height);
 

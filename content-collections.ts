@@ -4,7 +4,7 @@ import rehypeShiki from "@shikijs/rehype";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeSlug from "rehype-slug";
 import { z } from "zod";
-import { extractHeadingsFromContent, headingSchema } from "@/utils/toc";
+import { testCaseSchema } from "@/types/exercise";
 
 const exercises = defineCollection({
   name: "exercises",
@@ -17,7 +17,8 @@ const exercises = defineCollection({
     excerpt: z.string().optional(),
     content: z.string(),
     solved: z.boolean().optional(),
-    headings: z.array(headingSchema).optional(),
+    starter: z.string(),
+    tests: z.array(testCaseSchema).optional(),
     prev: z
       .object({
         title: z.string().optional(),
@@ -32,31 +33,28 @@ const exercises = defineCollection({
       .optional(),
   }),
   transform: async (doc, context) => {
-    const [mdx, headings] = await Promise.all([
-      compileMDX(context, doc, {
-        rehypePlugins: [
-          rehypeSlug,
-          [
-            rehypeAutolinkHeadings,
-            {
-              behavior: "wrap",
-              test: ["h2", "h3", "h4"],
-              properties: {
-                className: ["heading-link"],
-              },
+    const mdx = await compileMDX(context, doc, {
+      rehypePlugins: [
+        rehypeSlug,
+        [
+          rehypeAutolinkHeadings,
+          {
+            behavior: "wrap",
+            test: ["h2", "h3", "h4"],
+            properties: {
+              className: ["heading-link"],
             },
-          ],
-          [
-            rehypeShiki,
-            {
-              theme: "github-dark",
-              langs: ["typescript"],
-            },
-          ],
+          },
         ],
-      }),
-      extractHeadingsFromContent(doc.content, { tags: ["h2", "h3", "h4"] }),
-    ]);
+        [
+          rehypeShiki,
+          {
+            theme: "github-dark",
+            langs: ["javascript"],
+          },
+        ],
+      ],
+    });
 
     const docs = await context.collection.documents();
     const idx = docs.findIndex((d) => doc._meta.filePath === d._meta.filePath);
@@ -77,7 +75,6 @@ const exercises = defineCollection({
       },
       mdx,
       slug: doc.title.toLowerCase().replace(/ /g, "-"),
-      headings,
     };
   },
 });

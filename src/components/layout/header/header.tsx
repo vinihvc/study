@@ -21,11 +21,14 @@ export const Header = (props: HeaderProps) => {
 
   return (
     <header
-      className={cn("fixed inset-x-4 top-4 z-50", className)}
+      className={cn(
+        "fixed inset-x-0 top-0 z-50 md:inset-x-4 md:top-4",
+        className
+      )}
       data-slot="site-header"
       {...rest}
     >
-      <div className="container flex h-14 items-center justify-between rounded-md bg-card/60 shadow-md backdrop-blur-sm">
+      <div className="container flex h-14 items-center justify-between rounded-md border border-border/32 bg-card/60 shadow-md backdrop-blur-sm">
         <div className="flex items-center gap-2">
           <Button
             asChild
@@ -38,7 +41,7 @@ export const Header = (props: HeaderProps) => {
               {router.location.pathname === "/" ? (
                 <>
                   <RiCodeSSlashLine />
-                  <span className="max-sm:hidden">Algorithms</span>
+                  <span className="max-sm:hidden">Study</span>
                 </>
               ) : (
                 <>
