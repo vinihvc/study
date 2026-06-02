@@ -26,7 +26,11 @@ export default defineConfig({
       srcDirectory: "src",
     }),
     viteReact(),
-    nitro(),
+    nitro({
+      config: {
+        preset: "vercel",
+      },
+    }),
     contentCollections(),
   ],
 });
